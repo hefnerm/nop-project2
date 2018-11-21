@@ -1,0 +1,38 @@
+data=open(full_path_instance,"r")
+    
+        
+    
+    for line in data:
+        line=line.replace(" ","")
+        if line.find("nOldBooths")>-1:
+            line=next(data)
+            line=line.split(",")
+            nOldBooths=int(line[0])
+            nNewBooths=int(line[1])
+            nFaculties=int(line[2])
+            cost_coeff=float(line[3])
+            capacity=int(line[4])            
+            continue
+        if re.match("s[0-9]+",line) != None:
+            line=line.split(",")
+            coord_booths[line[0]]=(int(line[1]),int(line[2]))
+            destruction_cost[line[0]]=int(line[3])
+            oldbooths.append(line[0])
+            continue
+
+
+    for line in data:
+        if line.find("nBakeryProducts") >-1:
+            n=int(line.split()[1])
+            continue
+        if line.find("h:") >-1:
+            h=line.split(":")[1].split()
+            h=list(map(float,h))           
+            continue 
+        if re.match("d[0-9]+",line) != None: 
+            i=int(line.split("d")[1].split(":")[0])-1
+            d[i]=line.split(":")[1].split()
+            d[i]=list(map(float,d[i]))
+    data.close()    
+   
+    data.close()
