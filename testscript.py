@@ -1,5 +1,6 @@
 import readWrite
+import preprocess
 
-dic = readWrite.read('n')
+dataDic, costDic = readWrite.read('b')
 
-print(dic)
+dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic)

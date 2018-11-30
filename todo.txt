@@ -4,3 +4,4 @@
 -write function
 -adjust read function
 -collecting and implementing ideas
+-p2p preprocessing: delete edges with too less capacity
