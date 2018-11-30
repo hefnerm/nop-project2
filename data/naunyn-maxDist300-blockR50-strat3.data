@@ -1,0 +1,57 @@
+#nCoreSteinerNodes
+1
+#nCoreFacilityNodes
+7
+#nCustomers
+4
+#nCO
+1
+#nFTypes
+2
+#nFPerType
+4 3
+#nCoreEdges
+9
+#nAssEdgesPerType
+4 7
+#SteinerNodes
+shape_naunyn-adalbert 13.419983 52.50226
+#FacilityNodes
+kunde_habibi 13.418838 52.501429 1 1 1500 1
+kunde_smyrna 13.419803 52.501175 1 1 1500 1
+kunde_42 13.418296 52.502705 1 1 1500 1
+kunde_36 13.419142 52.502494 1 1 1500 1
+shape_oranien 13.416609 52.502034 1 2 100 1
+shape_oranien-adalbert 13.419294 52.501296 1 2 100 1
+shape_kaiser 13.416975 52.502581 1 2 100 1
+#CONodes
+CO_oranienplatz 13.415757 52.502265 392322
+#CustomerNodes
+kunde_habibi_cust 13.418838 52.501429 19 87 53
+kunde_smyrna_cust 13.419803 52.501175 19 87 53
+kunde_42_cust 13.418296 52.502705 4 12 8
+kunde_36_cust 13.419142 52.502494 8 24 16
+#CoreEdges
+tr_n_c_north3 kunde_36 shape_naunyn-adalbert 4800 60.0 2147483647
+tr_n_c_east shape_naunyn-adalbert shape_oranien-adalbert 9600 120.0 2147483647
+tr_n_drop_CO CO_oranienplatz shape_oranien 4800 60.0 2147483647
+tr_n_c_west shape_oranien shape_kaiser 5600 70.0 2147483647
+tr_n_c_north1 shape_kaiser kunde_42 7200 90.0 2147483647
+tr_n_c_north2 kunde_42 kunde_36 4800 60.0 2147483647
+tr_n_c_south1 shape_oranien kunde_habibi 13600 170.0 2147483647
+tr_n_c_south2 kunde_habibi shape_oranien-adalbert 2400 30.0 2147483647
+tr_n_drop_smyrna shape_oranien-adalbert kunde_smyrna 3200 40.0 2147483647
+#AssEdges1
+kunde_habibi_ass kunde_habibi kunde_habibi_cust 0 0 100
+kunde_smyrna_ass kunde_smyrna kunde_smyrna_cust 0 0 100
+kunde_42_ass kunde_42 kunde_42_cust 0 0 100
+kunde_36_ass kunde_36 kunde_36_cust 0 0 100
+#AssEdges2
+shape_oranien_kunde_habibi_cust_ass shape_oranien kunde_habibi_cust 110 170 25
+shape_oranien_kunde_smyrna_cust_ass shape_oranien kunde_smyrna_cust 110 240 25
+shape_oranien_kunde_42_cust_ass shape_oranien kunde_42_cust 110 160 25
+shape_oranien_kunde_36_cust_ass shape_oranien kunde_36_cust 110 220 25
+shape_oranien-adalbert_kunde_smyrna_cust_ass shape_oranien-adalbert kunde_smyrna_cust 110 40 25
+shape_kaiser_kunde_42_cust_ass shape_kaiser kunde_42_cust 110 90 25
+shape_kaiser_kunde_36_cust_ass shape_kaiser kunde_36_cust 110 150 25
+
