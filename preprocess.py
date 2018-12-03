@@ -28,6 +28,7 @@ def deleteAssEdgesP2P(dataDic, costDic):
 	
 	return dataDic
 
+
 def deleteCusts(nodes, edges):
 	
 	newNodes = []
