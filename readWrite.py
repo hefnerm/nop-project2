@@ -91,7 +91,7 @@ def read(instance):
 				dataDic['FacilityNodes'].append([tmp[0], float(tmp[1]), float(tmp[2]), n, int(tmp[4]), int(tmp[5]), int(tmp[6])])
 				node = ['facility', tmp[0], float(tmp[1]), float(tmp[2]), n, int(tmp[4]), int(tmp[6])]
 				dataDic['nodes'].append(node)
-				costDic[tuple(node)] = int(tmp[5])
+				costDic[node[1]] = int(tmp[5])
 				line = next(data)
 		
 		#check if numbers match
@@ -106,7 +106,7 @@ def read(instance):
 				dataDic['CONodes'].append([tmp[0], float(tmp[1]), float(tmp[2]), float(tmp[3])])
 				node = ['co', tmp[0], float(tmp[1]), float(tmp[2])]
 				dataDic['nodes'].append(node)
-				costDic[tuple(node)] = float(tmp[3])
+				costDic[node[1]] = float(tmp[3])
 				line = next(data)
 		
 		#check if numbers match
