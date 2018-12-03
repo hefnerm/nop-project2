@@ -28,16 +28,6 @@ def deleteAssEdgesP2P(dataDic, costDic):
 	
 	return dataDic
 
-def deleteCusts(nodes, edges)
-	
-	newNodes = []
-	newEdges = []
-	
-	
-	
-	return newNodes, newEdges
-
-
 def dijkstra(nodes, edges, root, costDic):
 	visited = {root[0]: 0}
 	path = {}
