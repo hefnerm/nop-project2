@@ -28,26 +28,27 @@ def deleteAssEdgesP2P(dataDic, costDic):
 	
 	return dataDic
 
-def deleteCusts(nodes, edges)
+def deleteCusts(nodes, edges):
 	
 	newNodes = []
 	newEdges = []
-	
-	
-	
 	return newNodes, newEdges
 
 
 def dijkstra(nodes, edges, root, costDic):
-	visited = {root[0]: 0}
+	visited = {root[1]: 0}
 	path = {}
-	
+
 	nodesTmp = nodes
 	
 	while nodesTmp: 
+		#print("\nin nodesTmp\n")
 		min_node = None
 		for node in nodesTmp:
+			#print("\n in for")
+			#print(node[1])
 			if node[1] in visited:
+				#print("visited\n")
 				if min_node is None:
 					min_node = node[1]
 				elif visited[node[1]] < visited[min_node]:
