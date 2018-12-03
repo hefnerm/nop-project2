@@ -1,3 +1,5 @@
+import graphalgs
+
 def deleteAssEdgesP2P(dataDic, costDic):
 	
 	vertices = dataDic['nodes']
@@ -25,3 +27,54 @@ def deleteAssEdgesP2P(dataDic, costDic):
 		dataDic['AssEdges2'].remove(tmp)
 	
 	return dataDic
+
+def deleteCusts(nodes, edges)
+	
+	newNodes = []
+	newEdges = []
+	
+	
+	
+	return newNodes, newEdges
+
+
+def dijkstra(nodes, edges, root, costDic):
+	visited = {root[0]: 0}
+	path = {}
+	
+	nodesTmp = nodes
+	
+	while nodesTmp: 
+		min_node = None
+		for node in nodesTmp:
+			if node[1] in visited:
+				if min_node is None:
+					min_node = node[1]
+				elif visited[node[1]] < visited[min_node]:
+					min_node = node[1]
+		
+		if min_node is None:
+			break
+		
+		for node in nodesTmp:
+			if node[1] == min_node:
+				nodesTmp.remove(node)
+				break
+		
+		current_weight = visited[min_node]
+		
+		edgesTmp = graphalgs.incoming(min_node, edges) + graphalgs.outgoing(min_node, edges)
+		
+		for edge in edgesTmp:
+			weight = current_weight + costDic[tuple(edge)]
+			
+			if min_node == edge[2]:
+				adjNode = edge[3]
+			else:
+				adjNode = edge[2]
+				
+			if adjNode not in visited or weight < visited[adjNode]:
+				visited[adjNode] = weight
+				path[adjNode] = min_node
+	
+	return visited, path

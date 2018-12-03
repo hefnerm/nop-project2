@@ -1,17 +1,16 @@
-
-def outgoing(node,edges):
-	outgoingedges=[]
+def outgoing(node, edges):
+	outgoingEdges = []
 	for e in edges:
-		if (e[2]==node):
-			outgoingedges.append(e)
+		if (e[2] == node):
+			outgoingEdges.append(e)
 
-	return outgoingedges
+	return outgoingEdges
 
 
-def incomming(node,edges):
-	incommingedges=[]
+def incoming(node, edges):
+	incomingEdges = []
 	for e in edges:
-		if (e[3]==node):
-			incommingedges.append(e)
+		if (e[3] == node):
+			incomingEdges.append(e)
 
-	return incommingedges
+	return incomingEdges
