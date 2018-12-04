@@ -1,20 +1,14 @@
 import readWrite
 import preprocess
-<<<<<<< HEAD
 import solveOnlyFiber
 import time
-=======
-import datanice
->>>>>>> 4f2a26824846d7f0584baef194c7f49061e68082
 
 start_time = time.time()
 
 dataDic, costDic = readWrite.read('v')
 
 dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic)
-facilitys,steinerNodes,cos,customers,coreEdges,assEdges1,assEdges2=datanice.datanice(dataDic)
 
-<<<<<<< HEAD
 dijkList = []
 
 facAndSteinerNodes = []
@@ -49,16 +43,3 @@ print("\nmin_cost: ", min_cost)
 elapsed_time = time.time() - start_time
 
 print("time: ", elapsed_time)
-=======
-nodesDij=cos+steinerNodes+facilitys
-
-vis, pa = preprocess.dijkstra(nodesDij, coreEdges, cos[0], costDic)
-
-
-
-path=preprocess.getPathEdgesDij(cos[0][1],facilitys[3][1],pa,coreEdges)
-
-print("visited: ", vis)
-print("\n\npath: ", pa)
-print('\n',cos[0][1],'\n',facilitys[3][1],'\n',path)
->>>>>>> 4f2a26824846d7f0584baef194c7f49061e68082

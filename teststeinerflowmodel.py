@@ -5,16 +5,20 @@ import steinerflowmodel
 import preprocess
 import datanice
 import readWrite
+import plotSolution
 
 
-dataDic, costDic = readWrite.read('n')
+dataDic, costDic = readWrite.read('b')
 dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic)
 
 facilitys,steinerNodes,cos,customers,coreEdges,assEdges1,assEdges2=datanice.datanice(dataDic)
-for root in cos:
+solution={}	
+###########costest normal nicht
+costest=[cos[0]]
+for root in costest:
 	nodesDij=cos+steinerNodes+facilitys
 
-	vis, pa = preprocess.dijkstra(nodesDij, coreEdges, cos[0], costDic)
+	vis, pa = preprocess.dijkstra(nodesDij, coreEdges, root, costDic)
 	nodesModel=facilitys+customers
 	if not (root in nodesModel):
 		nodesModel.append(root)
@@ -35,6 +39,18 @@ for root in cos:
 	for e in assEdges2:
 		costsModel[e[2],e[3]]=costDic[tuple(e)]
 
-	model,solution=steinerflowmodel.solve_steinerflowmodel(nodesModel,customers,root,edgesModel,costsModel)
+	model,solutionModel=steinerflowmodel.solve_steinerflowmodel(nodesModel,customers,root,edgesModel,costsModel)
 	costsfinal=model.ObjVal+costDic[root[1]]
+
+	solution[root[1]]=[]
+	for e in solutionModel:
+		if e[0]=='shortestpath':
+			path=preprocess.getPathEdgesDij(e[2],e[3],pa,coreEdges)
+			solution[root[1]]=solution[root[1]]+path
+		else:
+			solution[root[1]].append(e)
+
 	print('\n','CO: ',root[1],':', costsfinal)
+	plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,solution[root[1]],root)
+
+print(solution)
