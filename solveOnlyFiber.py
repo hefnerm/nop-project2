@@ -2,14 +2,17 @@ import graphalgs
 import preprocess
 
 
-def solveOnlyFiber(graph, dijkstraList):
+def solveOnlyFiber(graph, dijkstraList, costDic):
 	
 	customerList = graph['CustomerNodes']
-	assEdge1Cost = costDic[tuple(graph['AssEdges1'][0])]
-	
-	for assEdge in graph['AssEdges1']:
-		if costDic[tuple(assEdge)] != assEdge1Cost:
-			raise Exception("assignment costs not consistent")
+	fiberCost = 0
+	for facNode in graph['FacilityNodes']:
+		if fiberCost == 0 and facNode[4] == 1:
+			fiberCost = costDic[facNode[0]]
+		else:
+			continue
+		if facNode[4] == 1 and costDic[facNode[0]] != fiberCost:
+			raise Exception("fiber installation costs not consistent")
 	
 	min_cost = None
 	min_root = None
@@ -17,13 +20,18 @@ def solveOnlyFiber(graph, dijkstraList):
 	
 	for nodeDijkstra in dijkstraList:
 		root = nodeDijkstra[0]
-		cost = 0
+		cost = costDic[root]
 		dicTmp = {}
 		
 		for cust in customerList:
 			facNode = graphalgs.getMinCostFacAssEdge(cust, nodeDijkstra[1], graph['AssEdges1'])
-			cost = cost + nodeDijkstra[1][facNode] + assEdge1Cost
-			dicTmp[cust] = facNode
+			#print("facNode: ",facNode)
+			#print("\nnodeDijkstra[1]: ", nodeDijkstra[1])
+			cost = cost + nodeDijkstra[1][facNode] + fiberCost
+			dicTmp[cust[0]] = facNode
+		
+		print("root: ",root)
+		print("cost: ",cost)
 		
 		if min_cost == None or cost < min_cost:
 			min_root = root

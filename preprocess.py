@@ -37,19 +37,15 @@ def deleteCusts(nodes, edges):
 
 
 def dijkstra(nodes, edges, root, costDic):
-	visited = {root[1]: 0}
+	visited = {root: 0}
 	path = {}
 
-	nodesTmp = nodes
+	nodesTmp = nodes.copy()
 	
 	while nodesTmp: 
-		#print("\nin nodesTmp\n")
 		min_node = None
 		for node in nodesTmp:
-			#print("\n in for")
-			#print(node[1])
 			if node[1] in visited:
-				#print("visited\n")
 				if min_node is None:
 					min_node = node[1]
 				elif visited[node[1]] < visited[min_node]:
