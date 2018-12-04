@@ -1,4 +1,4 @@
--1 tex 
+-1 tex (wie ignoriert man die kompilierten files)
 -(end) presentation
 -(end) readme file
 -write function
@@ -8,7 +8,7 @@
 
 Lucias TODOs:
 -p2p model ?
--p2p only fiber (solutionliste?, plot?)
+-p2p only fiber (solution?)
 -p2p fiber and cooper ordentlich und vernuenftige Loesung plotten
 - other p2p for example profits?
 
