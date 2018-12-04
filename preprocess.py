@@ -29,20 +29,23 @@ def deleteAssEdgesP2P(dataDic, costDic):
 	return dataDic
 
 
+def deleteCusts(nodes, edges):
+	
+	newNodes = []
+	newEdges = []
+	return newNodes, newEdges
+
+
 def dijkstra(nodes, edges, root, costDic):
-	visited = {root[1]: 0}
+	visited = {root: 0}
 	path = {}
 
-	nodesTmp = nodes
+	nodesTmp = nodes.copy()
 	
 	while nodesTmp: 
-		#print("\nin nodesTmp\n")
 		min_node = None
 		for node in nodesTmp:
-			#print("\n in for")
-			#print(node[1])
 			if node[1] in visited:
-				#print("visited\n")
 				if min_node is None:
 					min_node = node[1]
 				elif visited[node[1]] < visited[min_node]:
@@ -73,23 +76,3 @@ def dijkstra(nodes, edges, root, costDic):
 				path[adjNode] = min_node
 	
 	return visited, path
-
-def getPathEdgesDij(startNode,endNode,pathDij,edges):
-	tempPathEdges=[]
-	pathEdges=[]
-
-	tempNode1=endNode
-	tempNode2=pathDij[endNode]
-	tempPathEdges.append([tempNode2,tempNode1])
-
-	while tempNode2 != startNode:
-		tempNode1=tempNode2
-		tempNode2=pathDij[tempNode1]
-		tempPathEdges.append([tempNode2,tempNode1])
-
-##TODO## nicht cool das so durch zu gehen...
-	for e in edges:
-		for t in tempPathEdges:
-			if (e[2]==t[0] and e[3]==t[1]):
-				pathEdges.append(e)
-	return pathEdges
