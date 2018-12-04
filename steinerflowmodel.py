@@ -28,12 +28,11 @@ def solve_steinerflowmodel(nodes,terminals,root,edges,costs):
     #numerates as in the termpaper
     #(1)
     for t in terminals:
-        model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.incoming(root[1],edges)) - quicksum(y[e[2],e[3],t[1]] for e in graphalgs.outgoing(root[1],edges)) == -1)
+    #   model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.incoming(root[1],edges)) - quicksum(y[e[2],e[3],t[1]] for e in graphalgs.outgoing(root[1],edges)) == -1)
         model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.incoming(t[1],edges)) - quicksum(y[e[2],e[3],t] for e in graphalgs.outgoing(t[1],edges)) == 1)
         for i in nodes:
-            if not i[1]==root[1]:
-                if not i[1]==t[1]:
-                     model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.incoming(i[1],edges)) - quicksum(y[e[2],e[3],t[1]] for e in graphalgs.outgoing(i[1],edges)) == 0)
+            if not (i[1]==root[1] or i[1]==t[1]):
+                model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.incoming(i[1],edges)) - quicksum(y[e[2],e[3],t[1]] for e in graphalgs.outgoing(i[1],edges)) == 0)
 
     #(2)
     for t in terminals:

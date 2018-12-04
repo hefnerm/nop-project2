@@ -19,10 +19,8 @@ for root in costest:
 	nodesDij=cos+steinerNodes+facilitys
 
 	vis, pa = preprocess.dijkstra(nodesDij, coreEdges, root, costDic)
-	nodesModel=facilitys+customers
-	if not (root in nodesModel):
-		nodesModel.append(root)
-
+	
+	nodesModel=facilitys+customers+[root]
 	edgesModel=assEdges1+assEdges2
 	for n in facilitys:
 		e=['shortestpath', 'sp_'+ root[1] +'_'+n[1] , root[1],n[1]]

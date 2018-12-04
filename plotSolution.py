@@ -6,10 +6,22 @@ def plotSolution(facilitys,steinerNodes,cos,customers,solutionEdges,solutionRoot
     ax = plt.axes()
     ax.axis('off')
 
-    coordFacilitysX = []
-    coordFacilitysY = []
     coordXDic = {}
     coordYDic = {}
+
+    coordSteinerX = []
+    coordSteinerY = []
+    color = []
+    for n in steinerNodes:
+        coordSteinerX.append(n[2])
+        coordSteinerY.append(n[3])
+        coordXDic[n[1]]=n[2]
+        coordYDic[n[1]]=n[3]
+        color.append('green')
+    ax.scatter(coordSteinerX, coordSteinerY, s=10, c=color, label='Steiner nodes', zorder=2)
+
+    coordFacilitysX = []
+    coordFacilitysY = []
     color = []
     for n in facilitys:
         coordFacilitysX.append(n[2])
@@ -40,17 +52,6 @@ def plotSolution(facilitys,steinerNodes,cos,customers,solutionEdges,solutionRoot
         else:
             color.append('#E80000')
     ax.scatter(coordCosX, coordCosY, s=10, c=color, label='CO nodes', zorder=2)
-
-    coordSteinerX = []
-    coordSteinerY = []
-    color = []
-    for n in steinerNodes:
-        coordSteinerX.append(n[2])
-        coordSteinerY.append(n[3])
-        coordXDic[n[1]]=n[2]
-        coordYDic[n[1]]=n[3]
-        color.append('green')
-    ax.scatter(coordSteinerX, coordSteinerY, s=10, c=color, label='Steiner nodes', zorder=2)
 
     coordCustomersX = []
     coordCustomersY = []
