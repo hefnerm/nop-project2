@@ -8,10 +8,13 @@ import readWrite
 import plotSolution
 
 
-dataDic, costDic = readWrite.read('v')
+dataDic, costDic = readWrite.read('b')
 dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic)
 
-facilitys,steinerNodes,cos,customers,coreEdges,assEdges1,assEdges2=datanice.datanice(dataDic)
+facilitys, steinerNodes, cos, customers, coreEdges, assEdges1, assEdges2 = datanice.datanice(dataDic)
+
+min_root = None
+min_costs = None
 
 solution={}	
 ###########costest normal nicht
@@ -23,28 +26,33 @@ for root in cos:
 		nodesDij.insert(0, root)
 
 	vis, pa = preprocess.dijkstra(nodesDij, coreEdges, root[1], costDic)
-	nodesModel=facilitys+customers+[root]
+	nodesModel = facilitys + customers + [root]
 
-	edgesModel=assEdges1+assEdges2
+	edgesModel = assEdges1 + assEdges2
+	nShPathes = 0
 	for n in facilitys:
-		e=['shortestpath', 'sp_'+ root[1] +'_'+n[1] , root[1],n[1]]
+		e = ['shortestpath', 'sp_' + root[1] + '_' + n[1] , root[1], n[1]]
 		edgesModel.append(e)
+		nShPathes = nShPathes + 1
 	
-	costsModel={}
+	costsModel = {}
 	for n in facilitys:
-		if n[5]==2:
-			costsModel[root[1],n[1]]=vis[n[1]]+costDic[n[1]]
-		if n[5]==1:
-			costsModel[root[1],n[1]]=vis[n[1]]
+		if n[5] == 2:
+			costsModel[root[1], n[1]] = vis[n[1]] + costDic[n[1]]
+		if n[5] == 1:
+			costsModel[root[1], n[1]] = vis[n[1]]
 	for e in assEdges1:
-		costsModel[e[2],e[3]]=costDic[tuple(e)]+costDic[e[2]]
+		costsModel[e[2], e[3]] = costDic[tuple(e)] + costDic[e[2]]
 	for e in assEdges2:
-		costsModel[e[2],e[3]]=costDic[tuple(e)]
+		costsModel[e[2], e[3]] = costDic[tuple(e)]
 
-	model,solutionModel=steinerflowmodel.solve_steinerflowmodel(nodesModel,customers,root,edgesModel,costsModel)
-	costsfinal=model.ObjVal+costDic[root[1]]
-	#plotSolution.plotSolution(facilitys,[],[root],customers,solutionModel,root)
-
+	model, solutionModel = steinerflowmodel.solve_steinerflowmodel(nodesModel, customers, root, edgesModel, costsModel)
+	costsfinal = model.ObjVal + costDic[root[1]]
+	#plotSolution.plotSolution(facilitys, [], [root], customers, solutionModel, root)
+	
+	if min_costs == None or min_costs < costsfinal:
+		min_costs = costsfinal
+		min_root = root
 	
 	#print(solutionModel)
 	nAssEdgesUsed = 0
@@ -52,11 +60,13 @@ for root in cos:
 	for edge in solutionModel:
 		if edge[0] == 'assEdge1' or edge[0] == 'assEdge2':
 			nAssEdgesUsed = nAssEdgesUsed + 1
-		if edge[0] == 'shortestpath':
+		elif edge[0] == 'shortestpath':
 			nShPEdgesUsed = nShPEdgesUsed + 1
+		else:
+			raise Exception("sth wrong")
 	
-	#print("number customers: ",len(customers))
-	#print("number assEdges used: ",nAssEdgesUsed)
+	#print("number customers: ", len(customers))
+	#print("number assEdges used: ", nAssEdgesUsed)
 	#print("number shortestpath edges used: ", nShPEdgesUsed)
 	
 	facNodesUsed = []
@@ -73,19 +83,106 @@ for root in cos:
 					shPathFound = True
 		
 		if not shPathFound:
-			print("\nFACNODE NOT IN SOLMODEL ADJACENT TO ROOT\n")
+			print("\nFACNODE IN SOLMODEL NOT ADJACENT TO ROOT\n")
 	
 	#print("facnodesused: ",len(facNodesUsed))
 	
+	print("len facilitys: ", len(facilitys))
+	
 	solution[root[1]]=[]
+	nShPathesUsed = 0
 	for e in solutionModel:
-		if e[0]=='shortestpath':
-			path=preprocess.getPathEdgesDij(e[2],e[3],pa,coreEdges)
+		if e[0] == 'shortestpath':
+			if e[2] != root[1]:
+				print("root: ", root)
+				print("e: ", e)
+				raise Exception("sth wrong with shortestpath")
+			path, length = preprocess.getPathEdgesDij(e[2],e[3],pa,coreEdges)
+			print(length)
+			nShPathesUsed = nShPathesUsed + 1
 			for pathEdge in path:
 				if not pathEdge in solution[root[1]]:
 					solution[root[1]].append(pathEdge)
 		else:
 			solution[root[1]].append(e)
+	
+	#for steinerNode in steinerNodes:
+	#	steinerNodeHasOutgoingEdge = False
+	#	steinerNodeHasIncomingEdge = False
+	#	for edge in solution[root[1]]:
+	#		if edge[2] == steinerNode[1]:
+	#			steinerNodeHasOutgoingEdge = True
+	#		if edge[3] == steinerNode[1]:
+	#			if steinerNodeHasIncomingEdge:
+	#				raise Exception("steiner node has multiple incoming edges")
+	#			steinerNodeHasIncomingEdge = True
+	#	
+	#	if steinerNodeHasOutgoingEdge != steinerNodeHasIncomingEdge:
+	#		print(steinerNode)
+	#		print("hasOutgoing: ", steinerNodeHasOutgoingEdge)
+	#		
+	#		raise Exception("steiner node hasIncoming != hasOutgoing")
+	#	
+	
+	
+	print("nShPathes: ", nShPathes)
+	print("nShPathesUsed: ", nShPathesUsed)
+	
+	
+	nCustsAssignedVia1 = 0
+	nCustsAssignedVia2 = 0
+	
+	for edge in solutionModel:
+		if edge[0] == 'shortestpath':
+			if edge[2] != root[1]:
+				raise Exception("shortest path edge not from root outgoing")
+	
+	for cust in customers:
+		custIsAssigned = False
+		for edge in solutionModel:
+			if edge[3] == cust[1]:
+				if edge[0] == 'assEdge1':
+					facCorrespondingToUsedEdgeIsAssigned = False
+					for shPaEdge in solutionModel:
+						if shPaEdge[0] == 'shortestpath':
+							if shPaEdge[3] == edge[2]:
+								if shPaEdge[2] != root[1]:
+									raise Exception("shPaEdge not from root assigned")
+								if facCorrespondingToUsedEdgeIsAssigned:
+									raise Exception("fac double assigned")
+								facCorrespondingToUsedEdgeIsAssigned = True
+					if not facCorrespondingToUsedEdgeIsAssigned:
+						raise Exception("fac not assigned to root")
+					
+					nCustsAssignedVia1 = nCustsAssignedVia1 + 1
+					if custIsAssigned:
+						raise Exception("cust double assigned")
+					custIsAssigned = True
+				if edge[0] == 'assEdge2':
+					facCorrespondingToUsedEdgeIsAssigned = False
+					for shPaEdge in solutionModel:
+						if shPaEdge[0] == 'shortestpath':
+							if shPaEdge[3] == edge[2]:
+								if shPaEdge[2] != root[1]:
+									raise Exception("shPaEdge not from root assigned")
+								if facCorrespondingToUsedEdgeIsAssigned:
+									raise Exception("fac double assigned")
+								facCorrespondingToUsedEdgeIsAssigned = True
+					if not facCorrespondingToUsedEdgeIsAssigned:
+						raise Exception("fac not assigned to root")
+					
+					nCustsAssignedVia2 = nCustsAssignedVia2 + 1
+					if custIsAssigned:
+						raise Exception("cust double assigned")
+					custIsAssigned = True
+		
+		if not custIsAssigned:
+			raise Exception("cust not assigned")
+	
+	print("nCustsAssignedVia1: ", nCustsAssignedVia1)
+	print("nCustsAssignedVia2: ", nCustsAssignedVia2)
+	
+	
 	
 	for cust in customers:
 		nEdgesForCust = 0
@@ -101,7 +198,9 @@ for root in cos:
 	#	if edge[0] == 'coreEdge':
 	#		print(edge)
 
-	print('\n','CO: ',root[1],':', costsfinal)
-	plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,solution[root[1]],root)
+	#print('\n', 'CO: ', root[1], ':', costsfinal)
+	#plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solution[root[1]], root)
 
+print("min_root: ", min_root, " min_costs: ", min_costs)
+plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solution[min_root[1]], min_root)
 #print(solution)
