@@ -29,6 +29,29 @@ def deleteAssEdgesP2P(dataDic, costDic):
 	return dataDic
 
 
+def getPathEdgesDij(startNode,endNode,pathDij,edges):
+	tempPathEdges=[]
+	pathEdges=[]
+	
+	tempNode1=endNode
+	tempNode2=pathDij[endNode]
+	tempPathEdges.append([tempNode2,tempNode1])
+	
+	while tempNode2 != startNode:
+		tempNode1=tempNode2
+		tempNode2=pathDij[tempNode1]
+		tempPathEdges.append([tempNode2,tempNode1])
+	
+	##TODO## nicht cool das so durch zu gehen...
+	for e in edges:
+		for t in tempPathEdges:
+			if (e[2]==t[0] and e[3]==t[1]):
+				pathEdges.append(e)
+	
+	return pathEdges
+
+
+
 def deleteCusts(nodes, edges):
 	
 	newNodes = []
