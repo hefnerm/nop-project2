@@ -25,13 +25,8 @@ def solveOnlyFiber(graph, dijkstraList, costDic):
 		
 		for cust in customerList:
 			facNode = graphalgs.getMinCostFacAssEdge(cust, nodeDijkstra[1], graph['AssEdges1'])
-			#print("facNode: ",facNode)
-			#print("\nnodeDijkstra[1]: ", nodeDijkstra[1])
 			cost = cost + nodeDijkstra[1][facNode] + fiberCost
 			dicTmp[cust[0]] = facNode
-		
-		print("root: ",root)
-		print("cost: ",cost)
 		
 		if min_cost == None or cost < min_cost:
 			min_root = root

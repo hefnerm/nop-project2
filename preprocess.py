@@ -1,6 +1,6 @@
 import graphalgs
 
-def deleteAssEdgesP2P(dataDic, costDic):
+def deleteAssEdgesP2P(dataDic, costDic, demandFactor):
 	
 	vertices = dataDic['nodes']
 	
@@ -10,7 +10,7 @@ def deleteAssEdgesP2P(dataDic, costDic):
 		if cust[0] != 'customer':
 			continue
 		
-		demand = cust[4]
+		demand = cust[4] * demandFactor
 		
 		for edge in dataDic['edges']:
 			if edge[0] != 'assEdge2':

@@ -7,7 +7,7 @@ start_time = time.time()
 
 dataDic, costDic = readWrite.read('v')
 
-dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic)
+dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, 1)
 
 dijkList = []
 
@@ -37,9 +37,8 @@ for co in dataDic['CONodes']:
 min_root, min_cost, predec = solveOnlyFiber.solveOnlyFiber(dataDic, dijkList, costDic)
 
 print("\nmin_root: ", min_root)
-print("\nmin_cost: ", min_cost)
-#print("\npredec: ",predec)
+print("min_cost: ", min_cost)
 
 elapsed_time = time.time() - start_time
 
-print("time: ", elapsed_time)
+print("time: ", elapsed_time, "s")

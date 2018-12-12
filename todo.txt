@@ -4,10 +4,9 @@
 -write function
 -adjust read function
 -collecting and implementing ideas
--p2p preprocessing: delete edges with too less capacity
 
 Lucias TODOs:
--p2p model ?
+-p2p model?
 -p2p only fiber (solutionliste?, plot?)
 -p2p fiber and cooper ordentlich und vernuenftige Loesung plotten
 - other p2p for example profits?

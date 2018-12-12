@@ -30,3 +30,45 @@ def getMinCostFacAssEdge(cust, dijkstra, assEdges):
 		raise Exception("no adjacent facility node found")
 	
 	return min_fac
+
+def getFather(solution, node, child):
+	for edge in solution:
+		if child == None:
+			if edge[3] == node:
+				return edge[2]
+			if edge[2] == node:
+				return edge[3]
+		else:
+			if edge[3] == node and edge[2] != child:
+				return edge[2]
+			if edge[2] == node and edge[3] != child:
+				return edge[3]
+	
+	return -1
+	raise Exception("node " + str(node) + " has no father!")
+
+def getPathP2MP(solution, root, terminal):
+	path = []
+	father = None
+	node = terminal[1]
+	child = None
+	
+	while node != root[1]:
+		#print("node: ", node)
+		if node == terminal:
+			father = getFather(solution, node, None)
+			if father == -1:
+				return -1
+		else:
+			father = getFather(solution, node, child)
+			if father == -1:
+				return -1
+		#print("father: ", father)
+		path.insert(0, node)
+		child = node
+		node = father
+		#print(path)
+	
+	path.insert(0, root[1])
+	print(path)
+	return path
