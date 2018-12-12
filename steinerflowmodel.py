@@ -51,3 +51,4 @@ def solve_steinerflowmodel(nodes,terminals,root,edges,costs):
 				solution.append(e)
 	
 	return model,solution
+

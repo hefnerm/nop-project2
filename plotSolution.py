@@ -68,9 +68,10 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 		coordYDic[n[1]] = n[3] + 0.0002
 		color.append('yellow')
 	ax.scatter(coordCustomersX, coordCustomersY, s = 10, c = color, label = 'Customer nodes (next to corresponding facility node)', zorder = 2)
-
+	
 	for e in solutionEdges:
 		ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "k", ec = "k", head_width = 0, head_length = 0, width = 0.00001)
 	
 	#ax.legend()
 	plt.show()
+
