@@ -143,8 +143,8 @@ def solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,s
 	print("nWrongEdgeConstr: ", nWrongEdgeConstr)
 	
 	
-	for e in edges:
-		print(x[e[2], e[3]].X)
+	#for e in edges:
+	#	print(x[e[2], e[3]].X)
 	
 	
 	
