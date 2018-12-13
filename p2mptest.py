@@ -126,7 +126,7 @@ def solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,s
 	for t in customers:
 		for e in edges:
 			if y[e[2], e[3], t[1]] == 1 and x[e[2], e[3]] == 0:
-				#print("WRONG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+				#print("WRONG!!!!!!!!!!!")
 				nWrongEdgeConstr = nWrongEdgeConstr + 1
 	
 	

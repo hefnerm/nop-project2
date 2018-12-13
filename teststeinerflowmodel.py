@@ -7,7 +7,7 @@ import time
 
 
 dataDic, costDic = readWrite.read('v')
-dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, 1)
+dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, demandFactor=1)
 
 facilitys, steinerNodes, cos, customers, coreEdges, assEdges1, assEdges2 = datanice.datanice(dataDic)
 
@@ -189,7 +189,7 @@ for root in cos:
 	#print('\n', 'CO: ', root[1], ':', costsfinal)
 	#plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solution[root[1]], root)
 
-print("min_root: ", min_root, " min_costs: ", min_costs)
+print("min_co: ", min_root[1], " min_costs: ", min_costs)
 
 elapsed_time = time.time() - start_time
 print("time: ", elapsed_time, "s")
