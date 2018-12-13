@@ -13,11 +13,11 @@ edges=dataDic['edges']
 facilitys,steinerNodes,cos,customers,coreEdges,assEdges1,assEdges2=datanice.datanice(dataDic)
 
 
-#ADJUST THIS FOR DIFFERENT ROOTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 for e in coreEdges:
 	if e[2] != cos[0][1]:
 		edges.append([e[0],e[1],e[3],e[2],e[4],e[5]])
 		costDic[e[0],e[1],e[3],e[2],e[4],e[5]]=costDic[tuple(e)]
+
 
 facilitys1=[]
 facilitys2=[]
@@ -50,13 +50,20 @@ splitterCosts=(summ/numberOfCoreEdges)/2
 
 #print(costDic)
 print("root included: ",cos[0] in facilitys+steinerNodes+customers)
+nodes = cos + facilitys + steinerNodes + customers
 for root in [cos[0]]:
-	nodes=[root]+facilitys+steinerNodes+customers
-	model,solution=p2mptest.solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,steinerNodes,coreEdges,assEdges1,assEdges2,costDic,maxi,splittingNumber,splitterCosts)
+	#nodes=[root]+facilitys+steinerNodes+customers
+	model,x,y,solution=p2mptest.solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,steinerNodes,coreEdges,assEdges1,assEdges2,costDic,maxi,splittingNumber,splitterCosts)
 	
 	costsfinal=model.ObjVal+costDic[root[1]]
 	print(root[1], " : ", costsfinal)
-	plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,solution,root)
+	
+	for t in customers:
+		solutionCust = []
+		for e in edges:
+			if y[e[2],e[3],t[1]].X>0.5:
+				solutionCust.append(e)
+		plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,solutionCust,root)
 
 nCustWRootConnection = 0
 nCustWORootConnection = 0

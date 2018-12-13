@@ -80,13 +80,13 @@ def solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,s
 	for e in assEdges2:
 		model.addConstr(x[e[2],e[3]]<=m[e[2]])
 	
-	considered = []
-	for t in customers:
-		for e in edges:
-			if e[0] == 'coreEdge' and e[2] != root[1]:
-				if not [e[3], e[2]] in considered:
-					model.addConstr(y[e[2], e[3], t[1]] + y[e[3], e[2], t[1]] <= 1)
-					considered.append([e[2], e[3]])
+	#considered = []
+	#for t in customers:
+	#	for e in edges:
+	#		if e[0] == 'coreEdge' and e[2] != root[1]:
+	#			if not [e[3], e[2]] in considered:
+	#				model.addConstr(y[e[2], e[3], t[1]] + y[e[3], e[2], t[1]] <= 1)
+	#				considered.append([e[2], e[3]])
 	
 	
 	#solve
@@ -108,15 +108,17 @@ def solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,s
 	#		testSol.write(str(e) + str(y[e[2], e[3], t[1]]) + "\n")
 	#testSol.close()
 	
+	
+	
 	for t in customers:
 		setOne = False
 		for e in edges:
 			if e[3] == root[1]:
-				if y[e[2], e[3], t[1]] == 1:
+				if y[e[2], e[3], t[1]].X == 1:
 					print("STH THAT SHOULDNT HAPPEN")
 					print(e[2], e[3], t[1],"\n")
 			elif e[2] == root[1]:
-				if y[e[2], e[3], t[1]] == 1:
+				if y[e[2], e[3], t[1]].X == 1:
 					#print("edge set on 1: y_", e[2],"_", e[3], "_",t[1])
 					setOne = True
 		if not setOne:
@@ -125,15 +127,15 @@ def solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,s
 	nWrongEdgeConstr = 0
 	for t in customers:
 		for e in edges:
-			if y[e[2], e[3], t[1]] == 1 and x[e[2], e[3]] == 0:
-				#print("WRONG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+			if y[e[2], e[3], t[1]].X == 1 and x[e[2], e[3]].X == 0:
+				print("y: ", y[e[2], e[3], t[1]], " x: ", x[e[2], e[3]])
 				nWrongEdgeConstr = nWrongEdgeConstr + 1
 	
 	
 	nWrongAss2 = 0
 	
 	for e in assEdges2:
-		if x[e[2],e[3]] == 1 and m[e[2]] == 0:
+		if x[e[2],e[3]].X == 1 and m[e[2]].X == 0:
 			nWrongAss2 = nWrongAss2 + 1
 	
 	print("nAssEdges2: ", len(assEdges2))
@@ -143,10 +145,5 @@ def solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,s
 	print("nWrongEdgeConstr: ", nWrongEdgeConstr)
 	
 	
-	#for e in edges:
-	#	print(x[e[2], e[3]].X)
 	
-	
-	
-	
-	return model,solution
+	return model,x,y,solution

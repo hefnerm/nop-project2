@@ -5,9 +5,12 @@ import readWrite
 import plotSolution
 import time
 
+instance = 'v'
+demandFactor = 1
+yearNumber = 0
 
-dataDic, costDic = readWrite.read('v')
-dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, demandFactor=1)
+dataDic, costDic = readWrite.read(instance)
+dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, demandFactor)
 
 facilitys, steinerNodes, cos, customers, coreEdges, assEdges1, assEdges2 = datanice.datanice(dataDic)
 
