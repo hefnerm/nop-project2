@@ -14,6 +14,7 @@ def read(instance):
 	dat = {}
 	dataDic = {'nodes': [], 'edges': []}
 	costDic = {}
+	profitDic = {}
 	
 	for line in data:
 		if line.find("#nCoreSteinerNodes") > -1:
@@ -123,6 +124,7 @@ def read(instance):
 				dat['CustomerNodes'].append([tmp[0], float(tmp[1]), float(tmp[2]), int(tmp[3])] + listHelp)
 				dataDic['CustomerNodes'].append([tmp[0], float(tmp[1]), float(tmp[2]), int(tmp[3])] + listHelp)
 				dataDic['nodes'].append(['customer', tmp[0], float(tmp[1]), float(tmp[2]), int(tmp[3])] + listHelp)
+				profitDic[tmp[0]] = listHelp
 				line = next(data)
 		
 		#check if numbers match
@@ -178,4 +180,4 @@ def read(instance):
 	
 	data.close()
 	
-	return dataDic, costDic
+	return dataDic, costDic, profitDic

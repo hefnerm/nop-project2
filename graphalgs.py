@@ -36,16 +36,11 @@ def getFather(solution, node, child):
 		if child == None:
 			if edge[3] == node:
 				return edge[2]
-			if edge[2] == node:
-				return edge[3]
 		else:
 			if edge[3] == node and edge[2] != child:
 				return edge[2]
-			if edge[2] == node and edge[3] != child:
-				return edge[3]
 	
 	return -1
-	raise Exception("node " + str(node) + " has no father!")
 
 def getPathP2MP(solution, root, terminal):
 	path = []
@@ -70,5 +65,5 @@ def getPathP2MP(solution, root, terminal):
 		#print(path)
 	
 	path.insert(0, root[1])
-	print(path)
+	#print(path)
 	return path

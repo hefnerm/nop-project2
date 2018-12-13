@@ -5,7 +5,7 @@ import time
 
 start_time = time.time()
 
-dataDic, costDic = readWrite.read('v')
+dataDic, costDic, profitDic = readWrite.read('v')
 
 dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, 1)
 
@@ -24,7 +24,6 @@ for edge in dataDic['edges']:
 		facAndSteinerEdges.append(edge)
 
 for co in dataDic['CONodes']:
-	
 	coDuplicate = ['co'] + [co[0], co[1], co[2]]
 	if not facAndSteinerNodes[0] == coDuplicate:
 		facAndSteinerNodes.remove(coDuplicate)
@@ -32,12 +31,13 @@ for co in dataDic['CONodes']:
 	
 	vis, pa = preprocess.dijkstra(facAndSteinerNodes, facAndSteinerEdges, co[0], costDic)
 	dijkList.append([co[0], vis])
-	
 
-min_root, min_cost, predec = solveOnlyFiber.solveOnlyFiber(dataDic, dijkList, costDic)
 
-print("\nmin_root: ", min_root)
-print("min_cost: ", min_cost)
+min_root, min_cost, predec, solution = solveOnlyFiber.solveOnlyFiber(dataDic, dijkList, costDic)
+
+
+
+print("min_co: ", min_root, " min_cost: ", min_cost)
 
 elapsed_time = time.time() - start_time
 

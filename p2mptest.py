@@ -66,8 +66,8 @@ def solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,s
 		model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],edges)) >= -(splittingNumber-1)*s[i[1]])
 	
 	
-	# for k in customers:
-	#    model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(k[1],edges)) == 1)
+	for k in customers:
+		model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(k[1],edges)) == 1)
 	
 	for i in facilitys2:
 		model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],edges)) <= 0)
@@ -112,11 +112,11 @@ def solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,s
 		setOne = False
 		for e in edges:
 			if e[3] == root[1]:
-				if y[e[2], e[3], t[1]] == 1:
+				if y[e[2], e[3], t[1]].X == 1:
 					print("STH THAT SHOULDNT HAPPEN")
 					print(e[2], e[3], t[1],"\n")
 			elif e[2] == root[1]:
-				if y[e[2], e[3], t[1]] == 1:
+				if y[e[2], e[3], t[1]].X == 1:
 					#print("edge set on 1: y_", e[2],"_", e[3], "_",t[1])
 					setOne = True
 		if not setOne:
@@ -125,7 +125,7 @@ def solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,s
 	nWrongEdgeConstr = 0
 	for t in customers:
 		for e in edges:
-			if y[e[2], e[3], t[1]] == 1 and x[e[2], e[3]] == 0:
+			if y[e[2], e[3], t[1]].X == 1 and x[e[2], e[3]].X == 0:
 				#print("WRONG!!!!!!!!!!!")
 				nWrongEdgeConstr = nWrongEdgeConstr + 1
 	
@@ -133,7 +133,7 @@ def solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,s
 	nWrongAss2 = 0
 	
 	for e in assEdges2:
-		if x[e[2],e[3]] == 1 and m[e[2]] == 0:
+		if x[e[2],e[3]].X == 1 and m[e[2]].X == 0:
 			nWrongAss2 = nWrongAss2 + 1
 	
 	print("nAssEdges2: ", len(assEdges2))
@@ -143,10 +143,7 @@ def solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,s
 	print("nWrongEdgeConstr: ", nWrongEdgeConstr)
 	
 	
-	for e in edges:
-		print(x[e[2], e[3]].X)
 	
 	
 	
-	
-	return model,solution
+	return model, x, y, solution

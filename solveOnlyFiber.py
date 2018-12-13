@@ -24,7 +24,7 @@ def solveOnlyFiber(graph, dijkstraList, costDic):
 		dicTmp = {}
 		
 		for cust in customerList:
-			facNode = graphalgs.getMinCostFacAssEdge(cust, nodeDijkstra[1], graph['AssEdges1'])
+			facNode, edge = graphalgs.getMinCostFacAssEdge(cust, nodeDijkstra[1], graph['AssEdges1'])
 			cost = cost + nodeDijkstra[1][facNode] + fiberCost
 			dicTmp[cust[0]] = facNode
 		

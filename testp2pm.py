@@ -6,7 +6,7 @@ import p2mptest
 import graphalgs
 
 
-dataDic, costDic = readWrite.read('b')
+dataDic, costDic, profitDic = readWrite.read('v')
 dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, 1)
 
 edges=dataDic['edges']
@@ -50,9 +50,20 @@ splitterCosts=(summ/numberOfCoreEdges)/2
 
 #print(costDic)
 print("root included: ",cos[0] in facilitys+steinerNodes+customers)
+nodes = cos + facilitys + steinerNodes + customers
 for root in [cos[0]]:
-	nodes=[root]+facilitys+steinerNodes+customers
-	model,solution=p2mptest.solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,steinerNodes,coreEdges,assEdges1,assEdges2,costDic,maxi,splittingNumber,splitterCosts)
+	model,x,y,solution=p2mptest.solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,steinerNodes,coreEdges,assEdges1,assEdges2,costDic,maxi,splittingNumber,splitterCosts)
+	
+	for e in edges:
+		if x[e[2], e[3]].X > 1:
+			print(x[e[2], e[3]].X)
+	
+	for t in customers:
+		solutionCust = []
+		for e in edges:
+			if y[e[2], e[3], t[1]].X > 0.5:
+				solutionCust.append(e)
+		#plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solutionCust, root)
 	
 	costsfinal=model.ObjVal+costDic[root[1]]
 	print(root[1], " : ", costsfinal)
@@ -61,13 +72,12 @@ for root in [cos[0]]:
 nCustWRootConnection = 0
 nCustWORootConnection = 0
 for t in customers:
-	#if t[1] != 'B_553_cust':
-		path = graphalgs.getPathP2MP(solution, root, t)
-		if path == -1:
-			nCustWORootConnection = nCustWORootConnection + 1
-		else:
-			print("cust ", t, " has connection to root")
-			nCustWRootConnection = nCustWRootConnection + 1
+	path = graphalgs.getPathP2MP(solution, root, t)
+	if path == -1:
+		nCustWORootConnection = nCustWORootConnection + 1
+	else:
+		#print("cust ", t, " has connection to root")
+		nCustWRootConnection = nCustWRootConnection + 1
 
 print("nCustWOCon: ", nCustWORootConnection)
 print("nCustWCon: ", nCustWRootConnection)
