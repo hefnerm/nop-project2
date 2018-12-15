@@ -59,10 +59,10 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,customers,steinerNodes,coreEd
 	
 	#solution
 	solution=[]
-	if (model.status==2):
+	if (model.status==2 or model.status==9):
 		for e in edges:
 			if x[e[2],e[3]].x>0.5:
 				solution.append(e)
 
 	
-	return model, x, y, s, m, solution
+	return model, x, y, s, solution
