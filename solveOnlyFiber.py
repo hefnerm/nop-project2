@@ -4,17 +4,17 @@ import preprocess
 
 def solveOnlyFiber(graph, facilities, customers, assEdges1, dijkstraList, costDic):
 	
-	customerList = graph['CustomerNodes']
-	fiberCost = 0
+	#customerList = graph['CustomerNodes']
+	fiberCost = None
 	#for facNode in graph['FacilityNodes']:
 	for facNode in facilities:
 		#######################################################CHECK facNode[4] or facNode[5]
-		if fiberCost == 0 and facNode[4] == 1:
+		if fiberCost == None and facNode[5] == 1:
 			fiberCost = costDic[facNode[1]]
 		else:
 			continue
 		#######################################################DITO
-		if facNode[4] == 1 and costDic[facNode[1]] != fiberCost:
+		if facNode[5] == 1 and costDic[facNode[1]] != fiberCost:
 			raise Exception("fiber installation costs not consistent")
 	
 	min_cost = None
@@ -23,7 +23,6 @@ def solveOnlyFiber(graph, facilities, customers, assEdges1, dijkstraList, costDi
 	
 	for nodeDijkstra in dijkstraList:
 		root = nodeDijkstra[0]
-		#print(root)
 		cost = costDic[root]
 		dicTmp = {}
 		edgeList = []

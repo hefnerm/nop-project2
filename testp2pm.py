@@ -2,7 +2,7 @@ import preprocess
 import datanice
 import readWrite
 import plotSolution
-import P2mpModel
+import p2mpmodel
 import graphalgs
 
 #########################################################NEUES EINLESEN
@@ -62,7 +62,7 @@ min_costs = None
 #			if e[2] == co[1]:
 #			coEdges.append(e)
 
-for root in cos:
+for root in [cos[0]]:
 	coreEdgesNew = []
 	for e in coreEdges:
 		flag = False
@@ -73,7 +73,7 @@ for root in cos:
 		if not flag:
 			coreEdgesNew.append(e)
 
-	model,x,y,s,m,solutionModel = P2mpModel.solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,customers,steinerNodes,coreEdgesNew,assEdges1,assEdges2,costDic,splittingNumber,splitterCosts,timelimit)
+	model,x,y,s,m,solutionModel = p2mpmodel.solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,customers,steinerNodes,coreEdgesNew,assEdges1,assEdges2,costDic,splittingNumber,splitterCosts,timelimit)
 	
 	edgeNumberDic={}
 	for e in solutionModel:
@@ -89,6 +89,7 @@ for root in cos:
 		min_costs = costsfinal
 		min_root = root
 		min_solution = solutionModel
+		minEdgeNumberDic = edgeNumberDic
 
 
-plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,min_solution,root,x,m,s,False)
+plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,min_solution,root,minEdgeNumberDic,m,s,False)
