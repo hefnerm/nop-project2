@@ -38,7 +38,7 @@ for f in facilitys:
 
 
 ############################splitngnumber=1 sollte lösung für p2p ergeben#####################################
-splittingNumber=1
+splittingNumber=4
 
 ###Splitter costs calculation
 summ=0
@@ -62,7 +62,7 @@ min_costs = None
 #			if e[2] == co[1]:
 #			coEdges.append(e)
 
-for root in [cos[0]]:
+for root in [cos[1]]:
 	coreEdgesNew = []
 	for e in coreEdges:
 		flag = False
