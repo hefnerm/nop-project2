@@ -175,11 +175,15 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 		if plotEdgeNumbers:
 			ax.text(0.5*(coordXDic[e[2]]+coordXDic[e[3]]),0.5*(coordYDic[e[2]]+coordYDic[e[3]]+0.000001), numberDic[e[2],e[3]], color='grey', fontsize=7,ha='center', va='top',zorder=4)	
 		if e[0]=='assEdge1':
+<<<<<<< HEAD
+			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "#00ff00" , ec = '#00ff00', head_width = 0.0001, head_length = 0.0001, width = 0.00001 , label='Anschlusskanten 1',zorder=1)
+=======
 			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "#00ff00" , ec = '#00ff00', head_width = 0, head_length = 0, width = 0.00001 , label='Anschlusskanten 1',zorder=1)
+>>>>>>> 81d2c723bc6a6196c2600c8bf310d69375583baa
 		elif e[0]=='assEdge2':
-			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = '#ff0066', ec = "#ff0066", head_width = 0, head_length = 0, width = 0.00001, label='Anschlusskanten 2',zorder=1)
+			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = '#ff0066', ec = "#ff0066", head_width = 0.0001, head_length = 0.0001, width = 0.00001, label='Anschlusskanten 2',zorder=1)
 		elif e[0]=='coreEdge':
-			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "k", ec = "k", head_width = 0, head_length = 0, width = 0.00001, label='innere Kanten',zorder=2)
+			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "k", ec = "k", head_width = 0.0001, head_length = 0.0001, width = 0.00001, label='innere Kanten',zorder=2)
 
 #####################plot legend
 #fontsize : int or float or {'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'}
