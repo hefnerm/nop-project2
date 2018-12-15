@@ -7,8 +7,8 @@ import time
 
 #parameter to solve the P2PFC
 instance = 'v'     # Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
-demandFactor =  3  # will multiply the demand (if you want to suppose that the demand increases)
-period = 0       # to calculate profit you can here choose for how many years you want to plan
+demandFactor =  1.5  # will multiply the demand (if you want to suppose that the demand increases)
+period = 25       # to calculate profit you can here choose for how many years you want to plan
 plotEdgeNumbers=False   #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
 
 #read the data
