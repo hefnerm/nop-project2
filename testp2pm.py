@@ -2,22 +2,31 @@ import preprocess
 import datanice
 import readWrite
 import plotSolution
-import p2mptest
+import P2mpModel
 import graphalgs
 
-
-dataDic, costDic, profitDic = readWrite.read('v')
+#########################################################NEUES EINLESEN
+dataDic, costDic, profitDic = readWrite.read('b')
 dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, 1)
 
 edges=dataDic['edges']
 facilitys,steinerNodes,cos,customers,coreEdges,assEdges1,assEdges2=datanice.datanice(dataDic)
 
-
-#ADJUST THIS FOR DIFFERENT ROOTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 for e in coreEdges:
-	if e[2] != cos[0][1]:
+	flag=False
+	for c in cos:
+		if e[2] == c[1]:
+			flag=True
+	if not flag:
 		edges.append([e[0],e[1],e[3],e[2],e[4],e[5]])
 		costDic[e[0],e[1],e[3],e[2],e[4],e[5]]=costDic[tuple(e)]
+
+dataDic['edges']=edges
+
+nodes = dataDic['nodes']
+
+facilitys,steinerNodes,cos,customers,coreEdges,assEdges1,assEdges2=datanice.datanice(dataDic)
+
 
 facilitys1=[]
 facilitys2=[]
@@ -27,60 +36,59 @@ for f in facilitys:
 	else:
 		facilitys2.append(f)
 
-maxi=0
-temp=0
-for f in facilitys:
-	for e in assEdges2:
-		if f[1]==e[2]:
-			temp=temp+1
-	if maxi<temp:
-		maxi=temp
-	temp=0
 
-############################splitngnumber=1 sollte lösung für p2p ergeben. tuts aber leider nicht :(#####################################
-splittingNumber=1
+############################splitngnumber=1 sollte lösung für p2p ergeben#####################################
+splittingNumber=4
 
+###Splitter costs calculation
 summ=0
 numberOfCoreEdges=0
 for e in coreEdges:
 	summ=summ+costDic[tuple(e)]
 	numberOfCoreEdges=numberOfCoreEdges+1
 splitterCosts=(summ/numberOfCoreEdges)/2
-#print(splitterCosts)
 
-#print(costDic)
-print("root included: ",cos[0] in facilitys+steinerNodes+customers)
-nodes = cos + facilitys + steinerNodes + customers
-for root in [cos[0]]:
-	model,x,y,solution=p2mptest.solve_P2MPModel(nodes,edges,root,facilitys,facilitys1,facilitys2,customers,steinerNodes,coreEdges,assEdges1,assEdges2,costDic,maxi,splittingNumber,splitterCosts)
+
+###############################################NEUES EINLESEN#####################################################################################
+
+timelimit=1000000000000
+
+min_root = None
+min_costs = None
+
+#coEdges = []
+#for co in cos:
+#	for e in coreEdges:
+#			if e[2] == co[1]:
+#			coEdges.append(e)
+
+for root in cos:
+	coreEdgesNew = []
+	for e in coreEdges:
+		flag = False
+		for c in cos:
+			if c[1] != root[1]:
+				if (e[2] == c[1]):
+					flag = True
+		if not flag:
+			coreEdgesNew.append(e)
+
+	model,x,y,s,m,solutionModel = P2mpModel.solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,customers,steinerNodes,coreEdgesNew,assEdges1,assEdges2,costDic,splittingNumber,splitterCosts,timelimit)
 	
-	for e in edges:
-		if x[e[2], e[3]].X > 1:
-			print(x[e[2], e[3]].X)
-	
-	for t in customers:
-		solutionCust = []
-		for e in edges:
-			if y[e[2], e[3], t[1]].X > 0.5:
-				solutionCust.append(e)
-		#plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solutionCust, root)
-	
-	costsfinal=model.ObjVal+costDic[root[1]]
+	edgeNumberDic={}
+	for e in solutionModel:
+		edgeNumberDic[e[2],e[3]]=x[e[2],e[3]].X
+
+	plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,solutionModel,root,edgeNumberDic,m,s,False)
+
+
+	costsfinal = model.ObjVal + costDic[root[1]]
 	print(root[1], " : ", costsfinal)
-	plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,solution,root)
 
-nCustWRootConnection = 0
-nCustWORootConnection = 0
-for t in customers:
-	path = graphalgs.getPathP2MP(solution, root, t)
-	if path == -1:
-		nCustWORootConnection = nCustWORootConnection + 1
-	else:
-		#print("cust ", t, " has connection to root")
-		nCustWRootConnection = nCustWRootConnection + 1
-
-print("nCustWOCon: ", nCustWORootConnection)
-print("nCustWCon: ", nCustWRootConnection)
+	if min_costs == None or min_costs < costsfinal:
+		min_costs = costsfinal
+		min_root = root
+		min_solution = solutionModel
 
 
-
+plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,min_solution,root,x,m,s,False)
