@@ -62,7 +62,7 @@ min_costs = None
 #			if e[2] == co[1]:
 #			coEdges.append(e)
 
-for root in cos:
+for root in [cos[0]]:
 	coreEdgesNew = []
 	for e in coreEdges:
 		flag = False
@@ -89,6 +89,7 @@ for root in cos:
 		min_costs = costsfinal
 		min_root = root
 		min_solution = solutionModel
+		minEdgeNumberDic = edgeNumberDic
 
 
-plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,min_solution,root,x,m,s,False)
+plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,min_solution,root,minEdgeNumberDic,m,s,False)

@@ -39,8 +39,7 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 	
 	model.update()
 	
-	#print(graphalgs.incoming(root[1], edges))
-	#print(graphalgs.outgoing(root[1], edges))
+	
 	#constraints
 	for t in customers:
 		#model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.incoming(root[1],edges)) - quicksum(y[e[2],e[3],t[1]] for e in graphalgs.outgoing(root[1],edges)) == -1)
@@ -68,6 +67,11 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 	for i in facilitys2:
 		model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - m[i[1]] - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],assEdges1+coreEdges)) <= 0)
 		model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - m[i[1]] - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],assEdges1+coreEdges)) >= -(splittingNumber-1)*s[i[1]])
+	
+	for i in facilitys + steinerNodes + cos:
+		if not i[1] == root[1]:
+			model.addConstr(s[i[1]] <= quicksum(x[e[2], e[3]] for e in graphalgs.incoming(i[1], edges)))
+	
 	
 	for i in facilitys2:
 		model.addConstr(s[i[1]]+m[i[1]] <= 1)
