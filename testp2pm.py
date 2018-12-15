@@ -2,7 +2,7 @@ import preprocess
 import datanice
 import readWrite
 import plotSolution
-import P2mpModel
+import p2mpmodel
 import graphalgs
 
 #########################################################NEUES EINLESEN
@@ -38,7 +38,7 @@ for f in facilitys:
 
 
 ############################splitngnumber=1 sollte lösung für p2p ergeben#####################################
-splittingNumber=4
+splittingNumber=1
 
 ###Splitter costs calculation
 summ=0
@@ -73,7 +73,7 @@ for root in cos:
 		if not flag:
 			coreEdgesNew.append(e)
 
-	model,x,y,s,m,solutionModel = P2mpModel.solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,customers,steinerNodes,coreEdgesNew,assEdges1,assEdges2,costDic,splittingNumber,splitterCosts,timelimit)
+	model,x,y,s,m,solutionModel = p2mpmodel.solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,customers,steinerNodes,coreEdgesNew,assEdges1,assEdges2,costDic,splittingNumber,splitterCosts,timelimit)
 	
 	edgeNumberDic={}
 	for e in solutionModel:
