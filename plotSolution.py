@@ -157,26 +157,41 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 		coordCustomersY.append(n[3] + 0.0002)
 		coordXDic[n[1]] = n[2] + 0.0002
 		coordYDic[n[1]] = n[3] + 0.0002
-		color.append('yellow')
+		color.append('orange')
 	axk=ax.scatter(coordCustomersX, coordCustomersY, marker='^', s = 10, c = color, label = 'Kunden (leicht versetzt)', zorder = 3)
 	
 	for e in solutionEdges:
 		if not P2P:
 			ax.text(0.5*(coordXDic[e[2]]+coordXDic[e[3]]),0.5*(coordYDic[e[2]]+coordYDic[e[3]]+0.000001), numberDic[e[2],e[3]], color='grey', fontsize=7,ha='center', va='top',zorder=4)	
 		if e[0]=='assEdge1':
+<<<<<<< HEAD
 			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "#00ff00" , ec = '#00ff00', head_width = 0.0001, head_length = 0.0001, width = 0.00001 , label='Anschlusskanten 1',zorder=1)
+=======
+			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "#00ff00" , ec = '#00ff00', head_width = 0, head_length = 0, width = 0.00001 , label='Anschlusskanten 1',zorder=1)
+>>>>>>> 81d2c723bc6a6196c2600c8bf310d69375583baa
 		elif e[0]=='assEdge2':
 			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = '#ff0066', ec = "#ff0066", head_width = 0.0001, head_length = 0.0001, width = 0.00001, label='Anschlusskanten 2',zorder=1)
 		elif e[0]=='coreEdge':
 			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "k", ec = "k", head_width = 0.0001, head_length = 0.0001, width = 0.00001, label='innere Kanten',zorder=2)
 
 #fontsize : int or float or {'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'}
-	ax.legend(fontsize='xx-small')
+	ax.legend(fontsize='x-small')
+	red_square, = plt.plot([],[], "rs", markersize=5)
+	blue_dot, = plt.plot([],[],"bo", markersize=5)
+	green_dot, = plt.plot([],[], "go", markersize=5)
+	yellow_triangle, = plt.plot([],[],color='orange',marker='^',markersize=5,linewidth=0)
+
 	dlinex1, = plt.plot([],[],color="#00ff00", linewidth=1)
 	dlinex2, = plt.plot([],[],color='#ff0066', linewidth=1)
 	dlinexc, = plt.plot([],[],color="k", linewidth=1)
 
-	ax.legend([axl,axf1,axf2,axs1,axs2,axk,dlinexc,dlinex1,dlinex2],['Leitstellen','Facilitys mit Mulitplexer oder Splitter','Facilitys','Steinerknoten mit Splitter','Steinerknoten','Kunden (leicht versetzt)','innere Kanten','Anschlusskanten Glasfaser','Anschlusskanten Kupfer'],fontsize='xx-small')
+
+	if P2P:
+		ax.legend([red_square,blue_dot,green_dot,yellow_triangle,dlinexc,dlinex1,dlinex2],['Leitstellen','Facilitys','Steinerknoten','Kunden (leicht versetzt)','innere Kanten','Anschlusskanten Glasfaser','Anschlusskanten Kupfer'],fontsize='xx-small')
+	else:
+		ax.legend([axl,axf1,axf2,axs1,axs2,axk,dlinexc,dlinex1,dlinex2],['Leitstellen','Facilitys mit Mulitplexer oder Splitter','Facilitys','Steinerknoten mit Splitter','Steinerknoten','Kunden (leicht versetzt)','innere Kanten','Anschlusskanten Glasfaser','Anschlusskanten Kupfer'],fontsize='xx-small')
+	
+
 	plt.show()
 	#plt.savefig('test.png')                        
 

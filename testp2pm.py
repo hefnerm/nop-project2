@@ -186,4 +186,4 @@ for root in cos:
 		minEdgeNumberDic = edgeNumberDic
 
 
-plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,min_solution,root,minEdgeNumberDic,m,s,False)
+plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,min_solution,min_root,minEdgeNumberDic,m,s,False)
