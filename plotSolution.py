@@ -157,7 +157,7 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 		coordCustomersY.append(n[3] + 0.0002)
 		coordXDic[n[1]] = n[2] + 0.0002
 		coordYDic[n[1]] = n[3] + 0.0002
-		color.append('yellow')
+		color.append('orange')
 	axk=ax.scatter(coordCustomersX, coordCustomersY, marker='^', s = 10, c = color, label = 'Kunden (leicht versetzt)', zorder = 3)
 	
 	for e in solutionEdges:
@@ -175,7 +175,7 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 	red_square, = plt.plot([],[], "rs", markersize=5)
 	blue_dot, = plt.plot([],[],"bo", markersize=5)
 	green_dot, = plt.plot([],[], "go", markersize=5)
-	yellow_triangle, = plt.plot([],[],'y^',markersize=5)
+	yellow_triangle, = plt.plot([],[],color='orange',marker='^',markersize=5,linewidth=0)
 
 	dlinex1, = plt.plot([],[],color="#00ff00", linewidth=1)
 	dlinex2, = plt.plot([],[],color='#ff0066', linewidth=1)

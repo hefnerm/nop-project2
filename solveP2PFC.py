@@ -6,9 +6,9 @@ import plotSolution
 import time
 
 #parameter to solve the P2PFC
-instance = 'b'
-demandFactor = 1
-period = 0
+instance = 'v'
+demandFactor = 1.5
+period = 5
 
 #read the data
 dataDic, costDic, profitDic = readWrite.read(instance)
@@ -78,11 +78,16 @@ for root in cos:
 		else:
 			solution[root[1]].append(e)
 
+#how much fiber assignments are in the solution?
+numberFiberAss = 0
+for e in solution[min_root[1]]:
+	if e[0] == 'assEdge1':
+		numberFiberAss = numberFiberAss+1
+
 #print everything
-print("min_co: ", min_root[1], " min_costs: ", min_costs)
+print("min_co: ", min_root[1], " min_costs: ", min_costs, 'number of fiber assignments:',numberFiberAss)
 
 elapsed_time = time.time() - start_time
 print("time: ", elapsed_time, "s")
-
 #plot the solution
-plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solution[min_root[1]], min_root,None,None,None,True)
+#plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solution[min_root[1]], min_root,None,None,None,True)
