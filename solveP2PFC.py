@@ -6,9 +6,10 @@ import plotSolution
 import time
 
 #parameter to solve the P2PFC
-instance = 'v'
-demandFactor = 1.5
-period = 5
+instance = 'v'     # Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
+demandFactor =  3  # will multiply the demand (if you want to suppose that the demand increases)
+period = 0       # to calculate profit you can here choose for how many years you want to plan
+plotEdgeNumbers=False   #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
 
 #read the data
 dataDic, costDic, profitDic = readWrite.read(instance)
@@ -89,5 +90,13 @@ print("min_co: ", min_root[1], " min_costs: ", min_costs, 'number of fiber assig
 
 elapsed_time = time.time() - start_time
 print("time: ", elapsed_time, "s")
+
 #plot the solution
-#plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solution[min_root[1]], min_root,None,None,None,True)
+numberEdgeInTree = {}
+for e in coreEdges + assEdges1 + assEdges2:
+
+	num = solution[min_root[1]].count(e)
+	if num > 0:
+		numberEdgeInTree[e[2],e[3]] = num
+
+plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solution[min_root[1]], min_root,numberEdgeInTree,None,None,True,plotEdgeNumbers)

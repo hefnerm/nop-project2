@@ -6,8 +6,9 @@ import solveOnlyFiber
 import plotSolution
 import time
 
-instance = 'v'
-demandFactor = 1
+instance = 'b'    #Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
+demandFactor = 1    # will multiply the demand (if you want to suppose that the demand increases)
+plotEdgeNumbers = False #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
 
 start_time = time.time()
 
@@ -73,7 +74,7 @@ for cust in customers:
 for e in coreEdges + assEdges1 + assEdges2:
 	num = solutionEdges.count(e)
 	if num > 0:
-		numberEdgeInTree[tuple(e)] = num
+		numberEdgeInTree[e[2],e[3]] = num
 
 #print(numberEdgeInTree)
 
@@ -83,4 +84,6 @@ elapsed_time = time.time() - start_time
 
 print("time: ", elapsed_time, "s")
 
-plotSolution.plotSolution(facilities, steinerNodes, cos, customers, solutionEdges, min_root)
+min_root=[0,min_root]
+
+plotSolution.plotSolution(facilities, steinerNodes, cos, customers, solutionEdges, min_root,numberEdgeInTree,None,None,True,plotEdgeNumbers)

@@ -1,6 +1,14 @@
 import matplotlib.pyplot as plt
 
-def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutionRoot,numberDic,m,s,P2P):
+
+#Input: standard parameters: facilitys, steinerNodes,cos, customers
+#		solutionEdges (describing the optimal network), solutionRoot (choosen co) 
+#		numberDic (states how often we buy the edge)
+#		m,s (state in which node we buy a splitter or a multiplexer) (only for p2mp)
+#		P2P bool (states wether we plot the solution for p2p or p2mp)
+#		plottEdgeNumbers bool (states whether we print the numberDic on the edge or not)
+
+def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutionRoot,numberDic,m,s,P2P,plotEdgeNumbers):
 	
 	ax=plt
 	ax.axis('off')
@@ -12,6 +20,7 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 	coordCosY = []
 	color = []
 
+######################  plot cos
 	for n in cos:
 		coordCosX.append(n[2])
 		coordCosY.append(n[3])
@@ -21,9 +30,9 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 			color.append('red')
 		else:
 			color.append('#ff4d4d')
-	axl=ax.scatter(coordCosX, coordCosY,marker='s', s = 10, c = color, label = 'Leitstellen', zorder = 3)
+	axl=ax.scatter(coordCosX, coordCosY,marker='s', s = 15, c = color, label = 'Leitstellen', zorder = 4)
 	
-###################################################
+################################################### plot facilitys
 	coordFacilitysX1 = []
 	coordFacilitysY1 = []
 	coordFacilitysX2 = []
@@ -115,7 +124,7 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 		axf1=ax.scatter(coordFacilitysX1, coordFacilitysY1, s = 10, c = color1, marker='*', label = 'Facilitys', zorder = 3)
 		axf2=ax.scatter(coordFacilitysX2, coordFacilitysY2, s = 10, c = color2, marker='o', label = 'Facilitys', zorder = 3)
 
-########################################	
+########################################	plot steinerknoten
 	coordSteinerX1 = []
 	coordSteinerY1 = []
 	coordSteinerX2 = []
@@ -158,10 +167,12 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 		coordXDic[n[1]] = n[2] + 0.0002
 		coordYDic[n[1]] = n[3] + 0.0002
 		color.append('orange')
-	axk=ax.scatter(coordCustomersX, coordCustomersY, marker='^', s = 10, c = color, label = 'Kunden (leicht versetzt)', zorder = 3)
+	axk=ax.scatter(coordCustomersX, coordCustomersY, marker='^', s = 15, c = color, label = 'Kunden (leicht versetzt)', zorder = 3)
+
+#####################plot edges
 	
 	for e in solutionEdges:
-		if not P2P:
+		if plotEdgeNumbers:
 			ax.text(0.5*(coordXDic[e[2]]+coordXDic[e[3]]),0.5*(coordYDic[e[2]]+coordYDic[e[3]]+0.000001), numberDic[e[2],e[3]], color='grey', fontsize=7,ha='center', va='top',zorder=4)	
 		if e[0]=='assEdge1':
 			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "#00ff00" , ec = '#00ff00', head_width = 0, head_length = 0, width = 0.00001 , label='Anschlusskanten 1',zorder=1)
@@ -170,11 +181,14 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 		elif e[0]=='coreEdge':
 			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "k", ec = "k", head_width = 0, head_length = 0, width = 0.00001, label='innere Kanten',zorder=2)
 
+#####################plot legend
 #fontsize : int or float or {'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'}
 	ax.legend(fontsize='x-small')
 	red_square, = plt.plot([],[], "rs", markersize=5)
 	blue_dot, = plt.plot([],[],"bo", markersize=5)
 	green_dot, = plt.plot([],[], "go", markersize=5)
+	green_star, = plt.plot([],[], "g*", markersize=5)
+	blue_star, = plt.plot([],[], "b*", markersize=5)
 	yellow_triangle, = plt.plot([],[],color='orange',marker='^',markersize=5,linewidth=0)
 
 	dlinex1, = plt.plot([],[],color="#00ff00", linewidth=1)
@@ -185,7 +199,7 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 	if P2P:
 		ax.legend([red_square,blue_dot,green_dot,yellow_triangle,dlinexc,dlinex1,dlinex2],['Leitstellen','Facilitys','Steinerknoten','Kunden (leicht versetzt)','innere Kanten','Anschlusskanten Glasfaser','Anschlusskanten Kupfer'],fontsize='xx-small')
 	else:
-		ax.legend([axl,axf1,axf2,axs1,axs2,axk,dlinexc,dlinex1,dlinex2],['Leitstellen','Facilitys mit Mulitplexer oder Splitter','Facilitys','Steinerknoten mit Splitter','Steinerknoten','Kunden (leicht versetzt)','innere Kanten','Anschlusskanten Glasfaser','Anschlusskanten Kupfer'],fontsize='xx-small')
+		ax.legend([red_square,blue_star,blue_dot,green_star,green_dot,yellow_triangle,dlinexc,dlinex1,dlinex2],['Leitstellen','Facilitys mit Mulitplexer oder Splitter','Facilitys','Steinerknoten mit Splitter','Steinerknoten','Kunden (leicht versetzt)','innere Kanten','Anschlusskanten Glasfaser','Anschlusskanten Kupfer'],fontsize='xx-small')
 	
 
 	plt.show()

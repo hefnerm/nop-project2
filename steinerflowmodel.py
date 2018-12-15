@@ -2,9 +2,9 @@ from gurobipy import *
 
 import graphalgs
 
-#solve Steiner tree problem with flow forumlation with gurobi
+#solve Steiner tree problem with flow forumlation as discribed in the lecture with gurobi
 #nodes,terminals,roots as subset of nodes, edges as in dataDic, 
-#costs ??
+#costs: costs edges
 def solve_steinerflowmodel(nodes,terminals,root,edges,costs):
 	
 	model = Model("Steiner tree problem with flow formulation")
@@ -25,8 +25,8 @@ def solve_steinerflowmodel(nodes,terminals,root,edges,costs):
 	model.update()
 	
 	#constraints
-	#numerates as in the termpaper
-	#(1)
+	#numerates as in the lecture
+	#these constraints formulate a flow for every terminal, starting at the root and ending at the customer
 	for t in terminals:
 		model.addConstr(quicksum(y[e[2], e[3], t[1]] for e in graphalgs.incoming(root[1], edges)) - quicksum(y[e[2], e[3], t[1]] for e in graphalgs.outgoing(root[1], edges)) == -1)
 		model.addConstr(quicksum(y[e[2], e[3], t[1]] for e in graphalgs.incoming(t[1], edges)) - quicksum(y[e[2], e[3], t[1]] for e in graphalgs.outgoing(t[1], edges)) == 1)
@@ -36,6 +36,7 @@ def solve_steinerflowmodel(nodes,terminals,root,edges,costs):
 					model.addConstr(quicksum(y[e[2], e[3], t[1]] for e in graphalgs.incoming(i[1], edges)) - quicksum(y[e[2], e[3], t[1]] for e in graphalgs.outgoing(i[1], edges)) == 0)
 	
 	#(2)
+	#if edge y[i,j,t]=1 is used by a flow, the complete flow must be x[i,j]=1
 	for t in terminals:
 		for e in edges:
 			model.addConstr(y[e[2], e[3], t[1]] <= x[e[2], e[3]])
