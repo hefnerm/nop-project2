@@ -6,7 +6,7 @@ import plotSolution
 import time
 
 #parameter to solve the P2PFC
-instance = 'v'
+instance = 'b'
 demandFactor = 1
 period = 0
 
@@ -63,7 +63,7 @@ for root in cos:
 	costsfinal = model.ObjVal + costDic[root[1]]
 	
 	#search for the cheapest co
-	if min_costs == None or min_costs < costsfinal:
+	if min_costs == None or min_costs > costsfinal:
 		min_costs = costsfinal
 		min_root = root
 	
@@ -85,4 +85,4 @@ elapsed_time = time.time() - start_time
 print("time: ", elapsed_time, "s")
 
 #plot the solution
-plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solution[min_root[1]], min_root)
+plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solution[min_root[1]], min_root,None,None,None,True)
