@@ -10,7 +10,7 @@ demandAndPeriodList = []
 
 
 paramList = []
-for dmdFac in [1, 1.5, 2, 2.5, 3]:
+for dmdFac in [1, 1.5, 2, 2.5, 3,3.5,4,4.5,5]:
 	for per in [0, 12*10, 12*20, 12*30, 12*40]:
 		paramList.append([dmdFac, per])
 
