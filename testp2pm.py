@@ -1,7 +1,7 @@
 import preprocess
 import datanice
 import readWrite
-import plotSolution
+#import plotSolution
 import p2mpmodel
 import graphalgs
 import time
