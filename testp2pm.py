@@ -6,7 +6,7 @@ import p2mpmodel
 import graphalgs
 
 #########################################################NEUES EINLESEN
-dataDic, costDic, profitDic = readWrite.read('b')
+dataDic, costDic, profitDic = readWrite.read('v')
 dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, 1)
 
 edges=dataDic['edges']
