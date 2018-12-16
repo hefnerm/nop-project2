@@ -1,9 +1,12 @@
 import graphalgs
 
+#input: dataDic dictionary with graph data; costDic cost dictionary for vertices and edges; demandFactor factor the demand of each customers has grown
+#output: dataDic without the assignment edges that can not contain the full demand of the customer
 def deleteAssEdgesP2P(dataDic, costDic, demandFactor):
 	
 	vertices = dataDic['nodes']
 	
+	#list of edges that have to be deleted
 	toDelete = []
 	
 	for cust in vertices:
@@ -29,6 +32,8 @@ def deleteAssEdgesP2P(dataDic, costDic, demandFactor):
 	return dataDic
 
 
+#input: startNode the node the path starts; endNode the node the path ends in; pathDij dictionary that contains the parent in the dijkstra-tree for every node; edges the list of all edges of the graph
+#output: the list of the edges forming the path und its length
 def getPathEdgesDij(startNode, endNode, pathDij, edges):
 	tempPathEdges = []
 	pathEdges = []	
@@ -39,6 +44,7 @@ def getPathEdgesDij(startNode, endNode, pathDij, edges):
 	
 	length = 1
 	
+	#iterate until the startNode is reached
 	while tempNode2 != startNode:
 		tempNode1 = tempNode2
 		tempNode2 = pathDij[tempNode1]
@@ -47,6 +53,7 @@ def getPathEdgesDij(startNode, endNode, pathDij, edges):
 		length = length + 1
 	
 	##TODO## nicht cool das so durch zu gehen...
+	#search for the corresponding edges of the graph
 	for e in edges:
 		for t in tempPathEdges:
 			if (e[2] == t[0] and e[3] == t[1]) or (e[2] == t[1] and e[3] == t[0]):
@@ -54,14 +61,17 @@ def getPathEdgesDij(startNode, endNode, pathDij, edges):
 	
 	return pathEdges, length
 
-
+#input: nodes is the list of nodes of the graph; edges the list of all edges; root is the node to start dijkstra on and for which we want to know all shortest paths; costDic is the dictionary containing the costs of all edges
+#output: a dictionary containing the length of a shortest way from root to the node and a dictionary with the parent node in the dijkstra-tree
+#dijkstras algorithm for computing a shortest path from a root to every other node
 def dijkstra(nodes, edges, root, costDic):
 	visited = {root: 0}
 	path = {}
 
 	nodesTmp = nodes.copy()
 	
-	while nodesTmp: 
+	#as long as not all nodes are visited
+	while nodesTmp:
 		min_node = None
 		for node in nodesTmp:
 			if node[1] in visited:
@@ -96,10 +106,13 @@ def dijkstra(nodes, edges, root, costDic):
 	
 	return visited, path
 
+#input: nodes is the list of nodes of the graph; edges the list of all edges; root is the node to start dijkstra on and for which we want to know all shortest paths; costDic is the dictionary containing the costs of all edges
+#output: a dictionary containing the length of a shortest way from root to the node and a dictionary with the parent node in the dijkstra-tree
+#dijkstras algorithm for computing a shortest path from a root to every other node
 def dijkstra2(nodes, edges, root, costDic):
 	visited = {root: 0}
 	path = {}
-
+	
 	nodesTmp = nodes.copy()
 	
 	while nodesTmp: 
