@@ -18,7 +18,7 @@ for [demandFactor, period] in paramList:
 	start_time = time.time()
 	
 	#########################################################NEUES EINLESEN
-	dataDic, costDic, profitDic = readWrite.read('b')
+	dataDic, costDic, profitDic = readWrite.read('v')
 	dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, demandFactor)
 	
 	edges=dataDic['edges']
