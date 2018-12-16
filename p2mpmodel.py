@@ -87,6 +87,11 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 				if not [e[3], e[2]] in considered:
 					model.addConstr(y[e[2], e[3], t[1]] + y[e[3], e[2], t[1]] <= 1)
 					considered.append([e[2], e[3]])
+
+	for e in edges:
+		if (e[0]=='assEdge1' or e[0]=='assEdge2'):
+			if (costs[e[2],e[3]]<=0):
+				model.addConstr(x[e[2],e[3]] <= quicksum(y[e[2],e[3],t[1]] for t in customers))			
 	
 	
 	#solve

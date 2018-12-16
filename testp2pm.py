@@ -11,7 +11,7 @@ demandAndPeriodList = []
 
 paramList = []
 for dmdFac in [1, 1.5, 2, 2.5, 3]:
-	for per in [0, 5, 10, 15, 20, 25]:
+	for per in [0, 12*10, 12*20, 12*30, 12*40]:
 		paramList.append([dmdFac, per])
 
 for [demandFactor, period] in paramList:
@@ -59,7 +59,7 @@ for [demandFactor, period] in paramList:
 	
 	
 	############################splitngnumber=1 sollte lösung für p2p ergeben#####################################
-	splittingNumber=16
+	splittingNumber=4
 	
 	###Splitter costs calculation
 	summ=0
