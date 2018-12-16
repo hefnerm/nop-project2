@@ -1,3 +1,5 @@
+#input: node and edges of a graph
+#output: all outgoing edges of the node in the graph
 def outgoing(node, edges):
 	outgoingEdges = []
 	for e in edges:
@@ -6,7 +8,8 @@ def outgoing(node, edges):
 
 	return outgoingEdges
 
-
+#input: node and edges of a graph
+#output: all incomming edges of the node in the graph
 def incoming(node, edges):
 	incomingEdges = []
 	for e in edges:

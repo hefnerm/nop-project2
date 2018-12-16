@@ -5,7 +5,7 @@ import graphalgs
 
 def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,customers,steinerNodes,coreEdges,assEdges1,assEdges2,costs,splittingNumber,splitterCosts,timelimit):
 	
-	model=Model("P2MP")
+	model=Model("P2MPFC")
 
 	model.Params.timelimit=timelimit
 	
@@ -27,12 +27,13 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 		for e in edges:
 			y[e[2],e[3],t[1]]=model.addVar(vtype=GRB.BINARY,obj=0,name="y_"+str(e[2])+'__'+str(e[3])+'__'+str(t[1]))
 	
-	
+	#s-varibales: s_i=1 if on node i is a splitter installed
 	s={}
 	for i in facilitys+steinerNodes+cos:
 		if not i[1]==root[1]:
 			s[i[1]]=model.addVar(vtype=GRB.BINARY,obj=splitterCosts,name="s_"+str(i[1]))
 	
+	#m-varibales: m_i=1 if on node i is a multiplexer installed
 	m={}
 	for i in facilitys2:
 		m[i[1]]=model.addVar(vtype=GRB.BINARY,obj=costs[i[1]],name="m_"+str(i[1]))
@@ -79,13 +80,13 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 	for e in assEdges2:
 		model.addConstr(x[e[2],e[3]]<=m[e[2]])
 	
-	#considered = []
-	#for t in customers:
-	#	for e in edges:
-	#		if e[0] == 'coreEdge' and e[2] != root[1]:
-	#			if not [e[3], e[2]] in considered:
-	#				model.addConstr(x[e[2], e[3] + x[e[3], e[2]] <= 1)
-	#				considered.append([e[2], e[3]])
+	considered = []
+	for t in customers:
+		for e in coreEdges:
+			if e[2] != root[1]:
+				if not [e[3], e[2]] in considered:
+					model.addConstr(y[e[2], e[3], t[1]] + y[e[3], e[2], t[1]] <= 1)
+					considered.append([e[2], e[3]])
 	
 	
 	#solve
