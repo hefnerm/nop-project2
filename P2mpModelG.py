@@ -29,7 +29,7 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,customers,steinerNodes,coreEd
 	
 	#s-varibales: s_i=1 if on node i is a splitter installed
 	s={}
-	for i in facilitys+steinerNodes+cos:
+	for i in facilitys+steinerNodes:
 		if not i[1]==root[1]:
 			s[i[1]]=model.addVar(vtype=GRB.BINARY,obj=splitterCosts,name="s_"+str(i[1]))
 
@@ -54,6 +54,9 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,customers,steinerNodes,coreEd
 			model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],edges)) <= 0)
 			model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],edges)) >= -(splittingNumber-1)*s[i[1]])
 
+
+	for i in facilitys + steinerNodes:
+		model.addConstr(s[i[1]] <= quicksum(x[e[2], e[3]] for e in graphalgs.incoming(i[1], edges)))
 	#solve
 	model.optimize()
 	
