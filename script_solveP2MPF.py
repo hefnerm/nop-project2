@@ -72,6 +72,7 @@ for root in cos:
 		min_root = root
 		min_solution = solutionModel
 		minEdgeNumberDic = edgeNumberDic
+		min_s=s
 	
 print("min_co: ", min_root[1], " costs: ", min_costs)
 

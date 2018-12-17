@@ -198,13 +198,15 @@ def solve_p2mp(instance,demandFactor,period):
 			min_root = root
 			min_solution = solutionModel
 			minEdgeNumberDic = edgeNumberDic
+			min_s=s
+			min_m=m
 
 	nCustsAssignedByFiber = 0
 	for e in min_solution:
 		if e[0] == 'assEdge1':
 			nCustsAssignedByFiber = nCustsAssignedByFiber + 1
 
-	return facilitys,steinerNodes,cos,customers,coreEdges,assEdges1,assEdges2,min_costs,min_root,min_solution,minEdgeNumberDic,nCustsAssignedByFiber,m,s
+	return facilitys,steinerNodes,cos,customers,coreEdges,assEdges1,assEdges2,min_costs,min_root,min_solution,minEdgeNumberDic,nCustsAssignedByFiber,min_m,min_s
 
 
 
