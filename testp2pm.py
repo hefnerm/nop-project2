@@ -14,11 +14,13 @@ for dmdFac in [1, 1.5, 2, 2.5, 3]:
 	for per in [0, 5, 10, 15, 20, 25]:
 		paramList.append([dmdFac, per])
 
+paramList = [[1, 0]]
+		
 for [demandFactor, period] in paramList:
 	start_time = time.time()
 	
 	#########################################################NEUES EINLESEN
-	dataDic, costDic, profitDic = readWrite.read('b')
+	dataDic, costDic, profitDic = readWrite.read('v')
 	dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, demandFactor)
 	
 	edges=dataDic['edges']
