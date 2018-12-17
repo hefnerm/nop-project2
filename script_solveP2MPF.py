@@ -5,7 +5,7 @@ import preprocess
 import plotSolution
 import time
 
-instance = 'b'
+instance = 'v'
 demandFactor = 1
 splittingNumber = 4
 timelimit = 1000000000000
