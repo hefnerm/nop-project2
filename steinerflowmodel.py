@@ -40,6 +40,11 @@ def solve_steinerflowmodel(nodes,terminals,root,edges,costs):
 	for t in terminals:
 		for e in edges:
 			model.addConstr(y[e[2], e[3], t[1]] <= x[e[2], e[3]])
+
+	for e in edges:
+		if (e[0]=='assEdge1' or e[0]=='assEdge2'):
+			if (costs[e[2],e[3]]<=0):
+				model.addConstr(x[e[2],e[3]] <= quicksum(y[e[2],e[3],t[1]] for t in terminals))
 	
 	#solve
 	model.optimize()

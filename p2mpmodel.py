@@ -87,6 +87,11 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 				if not [e[3], e[2]] in considered:
 					model.addConstr(y[e[2], e[3], t[1]] + y[e[3], e[2], t[1]] <= 1)
 					considered.append([e[2], e[3]])
+
+	for e in edges:
+		if (e[0]=='assEdge1' or e[0]=='assEdge2'):
+			if (costs[tuple(e)]<=0):
+				model.addConstr(x[e[2],e[3]] <= quicksum(y[e[2],e[3],t[1]] for t in customers))			
 	
 	
 	#solve
@@ -98,7 +103,16 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 		for e in edges:
 			if x[e[2],e[3]].x>0.5:
 				solution.append(e)
+
+	si={}
+	for i in facilitys+steinerNodes+cos:
+		if not i[1]==root[1]:
+			si[i[1]]=s[i[1]].X
 	
+	mi={}
+	for i in facilitys2:
+		mi[i[1]]=m[i[1]].X
+
 	#testSol = open('./testSol.txt',"w")
 	#for e in edges:
 	#	testSol.write(str(e) + str(x[e[2], e[3]]) + "\n")
@@ -146,4 +160,4 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 	
 	
 	
-	return model, x, y, s, m, solution
+	return model, x, y, si, mi, solution

@@ -6,8 +6,9 @@ import solveOnlyFiber
 import plotSolution
 import time
 
-instance = 'b'    #Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
-demandFactor = 1    # will multiply the demand (if you want to suppose that the demand increases)
+instance = 'v'    #Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
+demandFactor = 1    # will multiply the demand (if you want to suppose that the demand increases) 
+					#does not matter here, because fiber has capacity infintely
 plotEdgeNumbers = False #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
 
 start_time = time.time()

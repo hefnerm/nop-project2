@@ -6,25 +6,23 @@ import p2mpmodel
 import graphalgs
 import time
 
-demandAndPeriodList = []
 
-
-paramList = []
-for dmdFac in [1, 1.5, 2, 2.5, 3]:
-	for per in [0, 5, 10, 15, 20, 25]:
-		paramList.append([dmdFac, per])
-
-paramList = [[1, 0]]
-		
-for [demandFactor, period] in paramList:
-	start_time = time.time()
-	
+def solve_p2mp(instance,demandFactor,period):
 	#########################################################NEUES EINLESEN
-	dataDic, costDic, profitDic = readWrite.read('v')
+	dataDic, costDic, profitDic = readWrite.read(instance)
 	dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, demandFactor)
 	
 	edges=dataDic['edges']
+
 	facilitys,steinerNodes,cos,customers,coreEdges,assEdges1,assEdges2=datanice.datanice(dataDic)
+
+	###Splitter costs calculation
+	summ=0
+	numberOfCoreEdges=0
+	for e in coreEdges:
+		summ=summ+costDic[tuple(e)]
+		numberOfCoreEdges=numberOfCoreEdges+1
+	splitterCosts=(summ/numberOfCoreEdges)/2
 	
 	for e in coreEdges:
 		flag=False
@@ -62,15 +60,7 @@ for [demandFactor, period] in paramList:
 	
 	############################splitngnumber=1 sollte lösung für p2p ergeben#####################################
 	splittingNumber=16
-	
-	###Splitter costs calculation
-	summ=0
-	numberOfCoreEdges=0
-	for e in coreEdges:
-		summ=summ+costDic[tuple(e)]
-		numberOfCoreEdges=numberOfCoreEdges+1
-	splitterCosts=(summ/numberOfCoreEdges)/2
-	
+		
 	
 	###############################################NEUES EINLESEN#####################################################################################
 	
@@ -94,7 +84,7 @@ for [demandFactor, period] in paramList:
 			costDic[tuple(e)] = costDic[tuple(e)] - period * profitDic[e[3]][1]
 	
 	
-	for root in cos:
+	for root in [cos[0]]:
 		coreEdgesNew = []
 		for e in coreEdges:
 			flag = False
@@ -214,12 +204,32 @@ for [demandFactor, period] in paramList:
 		if e[0] == 'assEdge1':
 			nCustsAssignedByFiber = nCustsAssignedByFiber + 1
 
-	demandAndPeriodList.append([demandFactor, period, min_root[1], min_costs, nCustsAssignedByFiber])
+	return facilitys,steinerNodes,cos,customers,coreEdges,assEdges1,assEdges2,min_costs,min_root,min_solution,minEdgeNumberDic,nCustsAssignedByFiber,m,s
+
+
+
+instance='b'
+demandAndPeriodList = []
+
+paramList = []
+for dmdFac in [1]: #, 1.5, 2, 2.5, 3,3.5,4,4.5,5]:
+	for per in [0]:  #, 12*10, 12*20, 12*30, 12*40]:
+		paramList.append([dmdFac, per])
+
+for [demandFactor, period] in paramList:
+	start_time = time.time()
 	
+	
+	facilitys,steinerNodes,cos,customers,coreEdges,assEdges1,assEdges2,min_costs,min_root,min_solution,minEdgeNumberDic,nCustsAssignedByFiber,m,s=solve_p2mp(instance,demandFactor,period)
+
+	demandAndPeriodList.append([demandFactor, period, min_root[1], min_costs, nCustsAssignedByFiber])
+
+
 	print("\n", demandAndPeriodList, "\n")
 	
 	elapsed_time = time.time() - start_time
 	
 	print("time: ", elapsed_time, "s")
 
-	#plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,min_solution,min_root,minEdgeNumberDic,m,s,False,True)
+	plotSolution.plotSolution(facilitys,steinerNodes,cos,customers,min_solution,min_root,minEdgeNumberDic,m,s,False,True)
+
