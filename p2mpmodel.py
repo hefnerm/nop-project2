@@ -103,7 +103,16 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 		for e in edges:
 			if x[e[2],e[3]].x>0.5:
 				solution.append(e)
+
+	si={}
+	for i in facilitys+steinerNodes+cos:
+		if not i[1]==root[1]:
+			si[i[1]]=s[i[1]].X
 	
+	mi={}
+	for i in facilitys2:
+		mi[i[1]]=m[i[1]].X
+
 	#testSol = open('./testSol.txt',"w")
 	#for e in edges:
 	#	testSol.write(str(e) + str(x[e[2], e[3]]) + "\n")
@@ -151,4 +160,4 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 	
 	
 	
-	return model, x, y, s, m, solution
+	return model, x, y, si, mi, solution

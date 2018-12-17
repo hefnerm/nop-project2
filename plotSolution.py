@@ -64,7 +64,7 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 			coordYDic[n[1]] = n[3]
 
 			if n[5]==2:
-				if m[n[1]].X>0.5:
+				if m[n[1]]>0.5:
 					coordFacilitysX1.append(n[2])
 					coordFacilitysY1.append(n[3])
 					flag = False
@@ -75,7 +75,7 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 						color1.append('blue')
 					else:
 						color1.append('#1aa3ff')
-				elif s[n[1]].X>0.5:
+				elif s[n[1]]>0.5:
 					coordFacilitysX1.append(n[2])
 					coordFacilitysY1.append(n[3])
 					flag = False
@@ -98,7 +98,7 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 					else:
 						color2.append('#1aa3ff')
 			else:
-				if s[n[1]].X>0.5:
+				if s[n[1]]>0.5:
 					coordFacilitysX1.append(n[2])
 					coordFacilitysY1.append(n[3])
 					flag = False
@@ -144,7 +144,7 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 		for n in steinerNodes:
 			coordXDic[n[1]] = n[2]
 			coordYDic[n[1]] = n[3]
-			if s[n[1]].X>0.5:
+			if s[n[1]]>0.5:
 				coordSteinerX1.append(n[2])
 				coordSteinerY1.append(n[3])
 				color1.append('green')
@@ -176,6 +176,7 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 			ax.text(0.5*(coordXDic[e[2]]+coordXDic[e[3]]),0.5*(coordYDic[e[2]]+coordYDic[e[3]]), numberDic[e[2],e[3]], color='grey', fontsize=7,ha='center', va='top',zorder=4)	
 		if e[0]=='assEdge1':
 			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "#00ff00" , ec = '#00ff00', head_width = 0.0001, head_length = 0.0001, width = 0.00001 , label='Anschlusskanten 1',zorder=1)
+		if e[0]=='assEdge2':
 			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = '#ff0066', ec = "#ff0066", head_width = 0, head_length = 0, width = 0.00001, label='Anschlusskanten 2',zorder=1)
 		elif e[0]=='coreEdge':
 			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "k", ec = "k", head_width = 0.00008, head_length = 0.00008, width = 0.00001, label='innere Kanten',zorder=2)
