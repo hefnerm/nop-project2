@@ -2,11 +2,11 @@ import readWrite
 import p2mpModelF
 import datanice
 import preprocess
+import plotSolution
 import time
 
 instance = 'b'
 demandFactor = 1
-period = 0
 splittingNumber = 4
 timelimit = 1000000000000
 
@@ -19,6 +19,14 @@ nodes = dataDic['nodes']
 edges = dataDic['edges']
 facilities, steinerNodes, cos, customers, coreEdges, assEdges1, assEdges2 = datanice.datanice(dataDic)
 
+#splitter costs calculation
+sum = 0
+nOfCoreEdges = 0
+for e in coreEdges:
+	sum = sum + costDic[tuple(e)]
+	nOfCoreEdges = nOfCoreEdges + 1
+splitterCosts = (sum/nOfCoreEdges)/2
+
 for e in coreEdges:
 	flag = False
 	for c in cos:
@@ -29,15 +37,7 @@ for e in coreEdges:
 		costDic[e[0], e[1], e[3], e[2], e[4], e[5]] = costDic[tuple(e)]
 
 dataDic['edges'] = edges
-
-#splitter costs calculation
-sum = 0
-nOfCoreEdges = 0
-for e in coreEdges:
-	sum = sum + costDic[tuple(e)]
-	nOfCoreEdges = nOfCoreEdges + 1
-splitterCosts = (sum/nOfCoreEdges)/2
-
+facilities, steinerNodes, cos, customers, coreEdges, assEdges1, assEdges2 = datanice.datanice(dataDic)
 
 min_root = None
 min_costs = None
@@ -45,10 +45,7 @@ min_costs = None
 
 for e in edges:
 	if e[0] == 'assEdge1':
-		costDic[tuple(e)] = costDic[tuple(e)] - period * profitDic[e[3]][0]
-	if e[0] == 'assEdge2':
-		costDic[tuple(e)] = costDic[tuple(e)] - period * profitDic[e[3]][1]
-
+		costDic[tuple(e)] = costDic[tuple(e)]
 
 for root in cos:
 	coreEdgesNew = []
@@ -61,7 +58,7 @@ for root in cos:
 		if not flag:
 			coreEdgesNew.append(e)
 	
-	model, x, y, s, solutionModel = p2mpModelF.solve_P2MPModelFiber(nodes, edges, root, cos, facilities, customers, steinerNodes, coreEdges, costDic, splittingNumber, splitterCosts, timelimit)
+	model, x, y, s, solutionModel = p2mpModelF.solve_P2MPModelFiber(nodes, coreEdges+assEdges1, root, cos, facilities, customers, steinerNodes, coreEdges, costDic, splittingNumber, splitterCosts, timelimit)
 	
 	edgeNumberDic = {}
 	for e in solutionModel:
@@ -81,4 +78,12 @@ print("min_co: ", min_root[1], " costs: ", min_costs)
 elapsed_time = time.time() - start_time
 
 print("time: ", elapsed_time, "s")
+
+m={}
+for f in facilities:
+	if f[5]==2:
+		m[f[1]]=0
+
+plotSolution.plotSolution(facilities,steinerNodes,cos,customers,min_solution,min_root,minEdgeNumberDic,m,s,False,True)
+
 

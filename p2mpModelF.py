@@ -59,6 +59,11 @@ def solve_P2MPModelFiber(nodes,edges,root,cos,facilitys,customers,steinerNodes,c
 		model.addConstr(s[i[1]] <= quicksum(x[e[2], e[3]] for e in graphalgs.incoming(i[1], edges)))
 	#solve
 	model.optimize()
+
+	si={}
+	for i in facilitys+steinerNodes+cos:
+		if not i[1]==root[1]:
+			si[i[1]]=s[i[1]].X
 	
 	#solution
 	solution=[]
@@ -68,4 +73,4 @@ def solve_P2MPModelFiber(nodes,edges,root,cos,facilitys,customers,steinerNodes,c
 				solution.append(e)
 
 	
-	return model, x, y, s, solution
+	return model, x, y, si, solution
