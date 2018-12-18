@@ -6,7 +6,7 @@ import graphalgs
 def solve_P2MPModelFiber(nodes,edges,root,cos,facilitys,customers,steinerNodes,coreEdges,costs,splittingNumber,splitterCosts,timelimit):
 	
 	model=Model("P2MPG")
-
+	
 	model.Params.timelimit=timelimit
 	
 	#variables
@@ -31,7 +31,7 @@ def solve_P2MPModelFiber(nodes,edges,root,cos,facilitys,customers,steinerNodes,c
 	s={}
 	for i in facilitys+steinerNodes:
 		s[i[1]]=model.addVar(vtype=GRB.BINARY,obj=splitterCosts,name="s_"+str(i[1]))
-
+	
 	model.update()
 	
 	
@@ -52,8 +52,8 @@ def solve_P2MPModelFiber(nodes,edges,root,cos,facilitys,customers,steinerNodes,c
 		if not i[1]==root[1]:
 			model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],edges)) <= 0)
 			model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],edges)) >= -(splittingNumber-1)*s[i[1]])
-
-
+	
+	
 	for i in facilitys + steinerNodes:
 		model.addConstr(s[i[1]] <= quicksum(x[e[2], e[3]] for e in graphalgs.incoming(i[1], edges)))
 	
@@ -65,17 +65,26 @@ def solve_P2MPModelFiber(nodes,edges,root,cos,facilitys,customers,steinerNodes,c
 	
 	#solve
 	model.optimize()
-
-	si={}
-	for i in facilitys+steinerNodes:
-		si[i[1]]=s[i[1]].X
+	
+	
 	
 	#solution
-	solution=[]
-	if (model.status==2 or model.status==9):
+	solution = []	
+	if model.status in [9, 11]:
 		for e in edges:
-			if x[e[2],e[3]].x>0.5:
+			if x[e[2], e[3]].ub > 0.5:
 				solution.append(e)
-
+	
+	if model.status == 2:
+		for e in edges:
+			if x[e[2], e[3]].X > 0.5:
+				solution.append(e)
+	
+	si = {}
+	for i in facilitys + steinerNodes:
+		if model.status == 2:
+			si[i[1]] = s[i[1]].X
+		elif model.status in [9, 11]:
+			si[i[1]] = s[i[1]].ub
 	
 	return model, x, y, si, solution
