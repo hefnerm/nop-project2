@@ -7,7 +7,8 @@ import time
 
 instance = 'v'
 demandFactor = 1
-splittingNumber = 4
+splittingNumber = 1
+plotEdgeNumbers = False
 timelimit = 1000000000000
 
 start_time = time.time()
@@ -58,7 +59,7 @@ for root in cos:
 		if not flag:
 			coreEdgesNew.append(e)
 	
-	model, x, y, s, solutionModel = p2mpModelF.solve_P2MPModelFiber(nodes, coreEdges+assEdges1, root, cos, facilities, customers, steinerNodes, coreEdges, costDic, splittingNumber, splitterCosts, timelimit)
+	model, x, y, s, solutionModel = p2mpModelF.solve_P2MPModelFiber(nodes, coreEdgesNew+assEdges1, root, cos, facilities, customers, steinerNodes, coreEdges, costDic, splittingNumber, splitterCosts, timelimit)
 	
 	edgeNumberDic = {}
 	for e in solutionModel:
@@ -85,6 +86,6 @@ for f in facilities:
 	if f[5]==2:
 		m[f[1]]=0
 
-plotSolution.plotSolution(facilities,steinerNodes,cos,customers,min_solution,min_root,minEdgeNumberDic,m,min_s,False,True)
+plotSolution.plotSolution(facilities,steinerNodes,cos,customers,min_solution,min_root,minEdgeNumberDic,m,min_s,False,plotEdgeNumbers)
 
 
