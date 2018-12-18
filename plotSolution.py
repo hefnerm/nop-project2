@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 #		solutionEdges (describing the optimal network), solutionRoot (choosen co) 
 #		numberDic (states how often we buy the edge)
 #		m,s (state in which node we buy a splitter or a multiplexer) (only for p2mp)
-#		P2P bool (states wether we plot the solution for p2p or p2mp)
+#		P2P bool (states whether we plot the solution for p2p or p2mp)
 #		plottEdgeNumbers bool (states whether we print the numberDic on the edge or not)
 
-def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutionRoot,numberDic,m,s,P2P,plotEdgeNumbers):
+def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutionRoot, numberDic, m, s, P2P, plotEdgeNumbers):
 	
 	ax=plt
 	ax.axis('off')
@@ -175,15 +175,15 @@ def plotSolution(facilitys, steinerNodes, cos, customers, solutionEdges, solutio
 		if plotEdgeNumbers:
 			ax.text(0.5*(coordXDic[e[2]]+coordXDic[e[3]]),0.5*(coordYDic[e[2]]+coordYDic[e[3]]), numberDic[e[2],e[3]], color='grey', fontsize=7,ha='center', va='top',zorder=4)	
 		if e[0]=='assEdge1':
-			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "#00ff00" , ec = '#00ff00', head_width = 0.0001, head_length = 0.0001, width = 0.00001 , label='Anschlusskanten 1',zorder=1)
+			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "#00ff00" , ec = '#00ff00', head_width = 0.000, head_length = 0.000, width = 0.00001 , label='Anschlusskanten 1',zorder=1)
 		if e[0]=='assEdge2':
 			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = '#ff0066', ec = "#ff0066", head_width = 0, head_length = 0, width = 0.00001, label='Anschlusskanten 2',zorder=1)
 		elif e[0]=='coreEdge':
-			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "k", ec = "k", head_width = 0.00008, head_length = 0.00008, width = 0.00001, label='innere Kanten',zorder=2)
+			ax.arrow(coordXDic[e[2]], coordYDic[e[2]] , coordXDic[e[3]] - coordXDic[e[2]], coordYDic[e[3]] - coordYDic[e[2]], fc = "k", ec = "k", head_width = 0.0000, head_length = 0.0000, width = 0.00001, label='innere Kanten',zorder=2)
 
 #####################plot legend
 #fontsize : int or float or {'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'}
-	ax.legend(fontsize='x-small')
+	ax.legend(fontsize='xx-large')
 	red_square, = plt.plot([],[], "rs", markersize=5)
 	blue_dot, = plt.plot([],[],"bo", markersize=5)
 	green_dot, = plt.plot([],[], "go", markersize=5)
