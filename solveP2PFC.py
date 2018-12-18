@@ -2,7 +2,7 @@ import steinerflowmodel
 import preprocess
 import datanice
 import readWrite
-import plotSolution
+#import plotSolution
 import time
 
 #parameter to solve the P2PFC
