@@ -6,7 +6,7 @@ import plotSolution
 import time
 
 #parameter to solve the P2PFC
-instance = 'b'     # Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
+instance = 'v'     # Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
 demandFactor =  1 	# will multiply the demand (if you want to suppose that the demand increases)
 
 period = 12*0  	#to calculate profit you can here choose for how many years you want to plan
