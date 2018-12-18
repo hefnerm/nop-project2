@@ -46,6 +46,12 @@ def solve_steinerflowmodel(nodes,terminals,root,edges,costs):
 			if (costs[e[2],e[3]]<=0):
 				model.addConstr(x[e[2],e[3]] <= quicksum(y[e[2],e[3],t[1]] for t in terminals))
 	
+	for t in customers:
+		for e in edges:
+			if e[0] in ['assEdge1', 'assEdge2']:
+				if e[3] != t[1]:
+					model.addConstr(y[e[2], e[3], t[1]] == 0)
+	
 	#solve
 	model.optimize()
 	

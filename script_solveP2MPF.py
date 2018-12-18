@@ -72,7 +72,7 @@ for root in cos:
 		min_root = root
 		min_solution = solutionModel
 		minEdgeNumberDic = edgeNumberDic
-		min_s=s
+		min_s = s
 	
 print("min_co: ", min_root[1], " costs: ", min_costs)
 
@@ -85,6 +85,6 @@ for f in facilities:
 	if f[5]==2:
 		m[f[1]]=0
 
-plotSolution.plotSolution(facilities,steinerNodes,cos,customers,min_solution,min_root,minEdgeNumberDic,m,s,False,True)
+plotSolution.plotSolution(facilities,steinerNodes,cos,customers,min_solution,min_root,minEdgeNumberDic,m,min_s,False,True)
 
 

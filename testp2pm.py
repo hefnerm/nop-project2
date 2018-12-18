@@ -59,7 +59,7 @@ def solve_p2mp(instance,demandFactor,period):
 	
 	
 	############################splitngnumber=1 sollte lösung für p2p ergeben#####################################
-	splittingNumber=16
+	splittingNumber=1
 		
 	
 	###############################################NEUES EINLESEN#####################################################################################

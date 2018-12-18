@@ -30,8 +30,7 @@ def solve_P2MPModelFiber(nodes,edges,root,cos,facilitys,customers,steinerNodes,c
 	#s-varibales: s_i=1 if on node i is a splitter installed
 	s={}
 	for i in facilitys+steinerNodes:
-		if not i[1]==root[1]:
-			s[i[1]]=model.addVar(vtype=GRB.BINARY,obj=splitterCosts,name="s_"+str(i[1]))
+		s[i[1]]=model.addVar(vtype=GRB.BINARY,obj=splitterCosts,name="s_"+str(i[1]))
 
 	model.update()
 	
@@ -57,13 +56,19 @@ def solve_P2MPModelFiber(nodes,edges,root,cos,facilitys,customers,steinerNodes,c
 
 	for i in facilitys + steinerNodes:
 		model.addConstr(s[i[1]] <= quicksum(x[e[2], e[3]] for e in graphalgs.incoming(i[1], edges)))
+	
+	for t in customers:
+		for e in edges:
+			if e[0] == 'assEdge1':
+				if e[3] != t[1]:
+					model.addConstr(y[e[2], e[3], t[1]] == 0)
+	
 	#solve
 	model.optimize()
 
 	si={}
-	for i in facilitys+steinerNodes+cos:
-		if not i[1]==root[1]:
-			si[i[1]]=s[i[1]].X
+	for i in facilitys+steinerNodes:
+		si[i[1]]=s[i[1]].X
 	
 	#solution
 	solution=[]
