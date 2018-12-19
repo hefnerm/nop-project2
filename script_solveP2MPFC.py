@@ -149,6 +149,8 @@ for [demandFactor, period] in paramList:
 		print("best lower bound: ", best_lb_costs)
 	print("time: ", elapsed_time, "s")
 
+	print("\n", demandAndPeriodList, "\n")
+
 #	plotSolution.plotSolution(facilities, steinerNodes, cos, customers, min_solution, min_root, minEdgeNumberDic, m, s, False, plotEdgeNumbers)
 
-print("\n", demandAndPeriodList, "\n")
+
