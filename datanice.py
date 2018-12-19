@@ -1,3 +1,6 @@
+#input: dataDicc (all data in one dictonary)
+#output: alle sets of nodes and edges we need
+#		 facilitys,steinerNodes,cos,customers,coreEdges,assEdges1,assEdges2
 def datanice(dataDic):
 	nodes=dataDic['nodes']
 	edges=dataDic['edges']

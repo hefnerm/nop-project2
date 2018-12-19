@@ -13,35 +13,19 @@ plotEdgeNumbers = True #Choose between False (no Numbers on the Edges in the plo
 
 start_time = time.time()
 
+#read the instance
 dataDic, costDic, profitDic = readWrite.read(instance)
-
+#preprocess, so the demand is satisfied
 dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, demandFactor)
 
 facilities, steinerNodes, cos, customers, coreEdges, assEdges1, assEdges2 = datanice.datanice(dataDic)
 
+#construct helping graph
 dijkList = []
 
 facAndSteinerNodes = []
 facAndSteinerEdges = []
 numberEdgeInTree = {}
-
-
-#for node in dataDic['nodes']:
-#	if node[0] in ['facility', 'steiner', 'co']:
-#		facAndSteinerNodes.append(node)
-
-#for edge in dataDic['edges']:
-#	if edge[0] == 'coreEdge':
-#		facAndSteinerEdges.append(edge)
-
-#for co in dataDic['CONodes']:
-#	coDuplicate = ['co'] + [co[0], co[1], co[2]]
-#	if not facAndSteinerNodes[0] == coDuplicate:
-#		facAndSteinerNodes.remove(coDuplicate)
-#		facAndSteinerNodes.insert(0, coDuplicate)
-#	
-#	vis, pa = preprocess.dijkstra(facAndSteinerNodes, facAndSteinerEdges, co[0], costDic)
-#	dijkList.append([co[0], vis])
 
 nodes = cos + facilities + steinerNodes
 
@@ -53,9 +37,8 @@ for co in cos:
 	vis, pa = preprocess.dijkstra2(nodes, coreEdges, co[1], costDic)
 	dijkList.append([co[1], vis, pa])
 
+#
 min_root, min_cost, predec, solutionEdges = solveOnlyFiber.solveOnlyFiber(dataDic, facilities, customers, assEdges1, dijkList, costDic)
-
-#print("solution: ", solution)
 
 dijkstraListToExtract = None
 
@@ -76,8 +59,6 @@ for e in coreEdges + assEdges1 + assEdges2:
 	num = solutionEdges.count(e)
 	if num > 0:
 		numberEdgeInTree[e[2],e[3]] = num
-
-#print(numberEdgeInTree)
 
 print("min_co: ", min_root, " min_cost: ", min_cost)
 

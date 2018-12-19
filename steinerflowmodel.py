@@ -25,7 +25,6 @@ def solve_steinerflowmodel(nodes,terminals,root,edges,costs):
 	model.update()
 	
 	#constraints
-	#numerates as in the lecture
 	#these constraints formulate a flow for every terminal, starting at the root and ending at the customer
 	for t in terminals:
 		model.addConstr(quicksum(y[e[2], e[3], t[1]] for e in graphalgs.incoming(root[1], edges)) - quicksum(y[e[2], e[3], t[1]] for e in graphalgs.outgoing(root[1], edges)) == -1)
@@ -41,11 +40,13 @@ def solve_steinerflowmodel(nodes,terminals,root,edges,costs):
 		for e in edges:
 			model.addConstr(y[e[2], e[3], t[1]] <= x[e[2], e[3]])
 
+	#if a edge has negativ costs x_i_j can only be one if one of the y_i_j_t is one for all t in terminals
 	for e in edges:
 		if (e[0]=='assEdge1' or e[0]=='assEdge2'):
 			if (costs[e[2],e[3]]<=0):
 				model.addConstr(x[e[2],e[3]] <= quicksum(y[e[2],e[3],t[1]] for t in terminals))
 	
+	#the flow y_i_j_t has to be 0 for an assignment edge, if j is not the customer
 	for t in terminals:
 		for e in edges:
 			if e[0] in ['assEdge1', 'assEdge2']:

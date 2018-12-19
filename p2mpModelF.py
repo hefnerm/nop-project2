@@ -36,6 +36,8 @@ def solve_P2MPModelFiber(nodes,edges,root,cos,facilitys,customers,steinerNodes,c
 	
 	
 	#constraints
+	#discribed and numerated as in the termpaper
+	#(1)
 	for t in customers:
 		model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.outgoing(root[1],edges)) == 1)
 		model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.incoming(t[1],edges)) == 1)
@@ -43,20 +45,20 @@ def solve_P2MPModelFiber(nodes,edges,root,cos,facilitys,customers,steinerNodes,c
 		for i in nodes:
 			if not (i[1]==root[1] or i[1]==t[1]):
 				model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.incoming(i[1],edges)) - quicksum(y[e[2],e[3],t[1]] for e in graphalgs.outgoing(i[1],edges)) == 0)
-	
+	#(2)
 	for t in customers:
 		for e in edges:
 			model.addConstr(y[e[2], e[3], t[1]] <= x[e[2], e[3]])        
-	
+	#(4)
 	for i in steinerNodes+facilitys:
 		if not i[1]==root[1]:
 			model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],edges)) <= 0)
 			model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],edges)) >= -(splittingNumber-1)*s[i[1]])
 	
-	
+	#(3)
 	for i in facilitys + steinerNodes:
 		model.addConstr(s[i[1]] <= quicksum(x[e[2], e[3]] for e in graphalgs.incoming(i[1], edges)))
-	
+	#(5)
 	for t in customers:
 		for e in edges:
 			if e[0] == 'assEdge1':
@@ -68,7 +70,7 @@ def solve_P2MPModelFiber(nodes,edges,root,cos,facilitys,customers,steinerNodes,c
 	
 	
 	
-	#solution
+	#return solution
 	solution = []	
 	if model.status in [9, 11]:
 		for e in edges:

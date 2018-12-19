@@ -127,15 +127,15 @@ def solve_p2mp(instance, demandFactor, period, splittingNumber, timelimit):
 
 
 
-instance = 'v'
+instance = 'b'
 splittingNumber = 4
 plotEdgeNumbers = False
 timelimit = 7200
 
 demandAndPeriodList = []
 paramList = []
-for dmdFac in [1,1.5,2,2.5,3,3.5,4,4.5,5]:
-	for per in [0]:  #, 12*10, 12*20]:
+for dmdFac in [1]:
+	for per in [12*10, 12*20,12*30,12*40]:
 		paramList.append([dmdFac, per])
 
 for [demandFactor, period] in paramList:
