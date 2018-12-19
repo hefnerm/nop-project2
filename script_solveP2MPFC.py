@@ -6,6 +6,7 @@ import p2mpmodel
 import graphalgs
 import time
 
+#parameters at the end
 #imput: instance: name of type 'n', 'b', 'v'; demandFactor: the factor the demand of each customer has changed; period: the number of months the profits shall be considered; splittingNumber: the number of fiber edges a splitter can split up to, 1 gives the P2P solution; timelimit
 #output: facilities, steinerNodes, cos, customers: all nodes; coreEdges, assEdges1, assEdges2: all edges; min_costs, min_root, min_solution, minEdgeNumberDic, nCustsAssignedByFiber, min_m, min_s, solutionIsUpperBound: solution parameters
 def solve_p2mp(instance, demandFactor, period, splittingNumber, timelimit):
@@ -105,9 +106,9 @@ def solve_p2mp(instance, demandFactor, period, splittingNumber, timelimit):
 			edgeNumberDic = {}
 			for e in solutionModel:
 				edgeNumberDic[e[2], e[3]] = x[e[2], e[3]].ub
-			
+			#final costs
 			costsfinal = model.ObjVal + costDic[root[1]]
-			
+		#find the best solution
 			if min_costs == None or costsfinal < min_costs:
 				min_costs = costsfinal
 				min_root = root
@@ -126,18 +127,20 @@ def solve_p2mp(instance, demandFactor, period, splittingNumber, timelimit):
 	return facilities, steinerNodes, cos, customers, coreEdges, assEdges1, assEdges2, min_costs, min_root, min_solution, minEdgeNumberDic, nCustsAssignedByFiber, min_m, min_s, solutionIsUpperBound
 
 
-
-instance = 'b'
-splittingNumber = 4
-plotEdgeNumbers = False
+#############parameters to solve the P2MPFC
+instance = 'n'         #chooose from 'n' (Naunyn), 'b' (Berlin), 'v' (Vehlefanz)
+splittingNumber = 4     # in how much kables can one splitter split one kabel, choose between 4 or 16
+plotEdgeNumbers = False    #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
 timelimit = 7200
 
 demandAndPeriodList = []
 paramList = []
-for dmdFac in [1]:
-	for per in [12*10, 12*20,12*30,12*40]:
+for dmdFac in [1]:                        ##list, will multiply the demand (if you want to suppose that the demand increases
+	for per in [12*10, 12*20,12*30,12*40]:  #to calculate profit you can here choose for how many month you want to plan
 		paramList.append([dmdFac, per])
+##########################################
 
+#solve the P2MPFC for all demands and periods you list
 for [demandFactor, period] in paramList:
 	start_time = time.time()
 	facilities, steinerNodes, cos, customers, coreEdges, assEdges1, assEdges2, min_costs, min_root, min_solution, minEdgeNumberDic, nCustsAssignedByFiber, m, s, isUpperBound = solve_p2mp(instance, demandFactor, period, splittingNumber, timelimit)

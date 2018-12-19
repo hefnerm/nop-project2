@@ -1,19 +1,15 @@
 import graphalgs
 import preprocess
-
-
+#input: 
+#output:
 def solveOnlyFiber(graph, facilities, customers, assEdges1, dijkstraList, costDic):
 	
-	#customerList = graph['CustomerNodes']
 	fiberCost = None
-	#for facNode in graph['FacilityNodes']:
 	for facNode in facilities:
-		#######################################################CHECK facNode[4] or facNode[5]
 		if fiberCost == None and facNode[5] == 1:
 			fiberCost = costDic[facNode[1]]
 		else:
 			continue
-		#######################################################DITO
 		if facNode[5] == 1 and costDic[facNode[1]] != fiberCost:
 			raise Exception("fiber installation costs not consistent")
 	

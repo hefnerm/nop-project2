@@ -5,12 +5,13 @@ import preprocess
 import plotSolution
 import time
 
-instance = 'v'
-demandFactor = 1
-splittingNumber = 4
-plotEdgeNumbers = False
-timelimit = 7200
-
+#######parameters you can change
+instance = 'n'     #chooose from 'n' (Naunyn), 'b' (Berlin), 'v' (Vehlefanz)
+demandFactor = 1    # dont need to be increase here because fiber has ininite capacity
+splittingNumber = 4   # in how much kables can one splitter split one kabel, choose between 4 or 16
+plotEdgeNumbers = False  #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
+timelimit = 7200           #Timelimit for gurobi 
+############################
 start_time = time.time()
 
 dataDic, costDic, profitDic = readWrite.read(instance)
@@ -72,8 +73,8 @@ for root in cos:
 			edgeNumberDic[e[2], e[3]] = x[e[2], e[3]].X
 		
 		costsfinal = model.ObjVal + costDic[root[1]]
-		
-		if min_costs == None or costsfinal < min_costs
+	#find the best solution
+		if min_costs == None or costsfinal < min_costs:
 			min_costs = costsfinal
 			min_root = root
 			min_solution = solutionModel

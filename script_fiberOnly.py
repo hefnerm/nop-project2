@@ -6,7 +6,7 @@ import solveOnlyFiber
 import plotSolution
 import time
 
-instance = 'b'    #Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
+instance = 'n'    #Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
 demandFactor = 1    # will multiply the demand (if you want to suppose that the demand increases) 
 					#does not matter here, because fiber has capacity infintely
 plotEdgeNumbers = True #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
@@ -28,7 +28,7 @@ facAndSteinerEdges = []
 numberEdgeInTree = {}
 
 nodes = cos + facilities + steinerNodes
-
+#dijkstra for every co on the graph (edges=coreedges)
 for co in cos:
 	if not co == nodes[0]:
 		nodes.remove(co)
@@ -37,7 +37,7 @@ for co in cos:
 	vis, pa = preprocess.dijkstra2(nodes, coreEdges, co[1], costDic)
 	dijkList.append([co[1], vis, pa])
 
-#
+#gives the min_root and the min_costs and the solution edges
 min_root, min_cost, predec, solutionEdges = solveOnlyFiber.solveOnlyFiber(dataDic, facilities, customers, assEdges1, dijkList, costDic)
 
 dijkstraListToExtract = None
@@ -49,10 +49,7 @@ for nodeDijk in dijkList:
 
 
 for cust in customers:
-	#path = graphalgs.getPathP2MP(coreEdges, min_root, predec[cust[1]])
-	#path = graphalgs.getPathFromDijkstra(coreEdges, min_root, predec[cust[1]])
 	path, length = preprocess.getPathEdgesDij(min_root, predec[cust[1]], dijkstraListToExtract, coreEdges)
-	#print("path: ", path)
 	solutionEdges = solutionEdges + path
 
 for e in coreEdges + assEdges1 + assEdges2:

@@ -5,12 +5,13 @@ import readWrite
 import plotSolution
 import time
 
-#parameter to solve the P2PFC
+#############parameters to solve the P2PFC
 instance = 'n'     # Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
-demandFactor =  6.5 	# will multiply the demand (if you want to suppose that the demand increases)
-period = 0	#to calculate profit you can here choose for how many years you want to plan
+demandFactor =  1	# will multiply the demand (if you want to suppose that the demand increases)
+period = 0	#to calculate profit you can here choose for how many month you want to plan
 
 plotEdgeNumbers=True  #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
+###############################
 
 #read the data
 dataDic, costDic, profitDic = readWrite.read(instance)
