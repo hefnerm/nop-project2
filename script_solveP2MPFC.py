@@ -1,7 +1,7 @@
 import preprocess
 import datanice
 import readWrite
-import plotSolution
+#import plotSolution
 import p2mpmodel
 import graphalgs
 import time
@@ -134,7 +134,7 @@ timelimit = 7200
 
 demandAndPeriodList = []
 paramList = []
-for dmdFac in [1]: #, 1.5, 2, 2.5, 3,3.5,4,4.5,5]:
+for dmdFac in [1,1.5,2,2.5,3,3.5,4,4.5,5]:
 	for per in [0]:  #, 12*10, 12*20]:
 		paramList.append([dmdFac, per])
 
@@ -149,6 +149,6 @@ for [demandFactor, period] in paramList:
 		print("best lower bound: ", best_lb_costs)
 	print("time: ", elapsed_time, "s")
 
-	plotSolution.plotSolution(facilities, steinerNodes, cos, customers, min_solution, min_root, minEdgeNumberDic, m, s, False, plotEdgeNumbers)
+#	plotSolution.plotSolution(facilities, steinerNodes, cos, customers, min_solution, min_root, minEdgeNumberDic, m, s, False, plotEdgeNumbers)
 
 print("\n", demandAndPeriodList, "\n")
