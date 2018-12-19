@@ -2,13 +2,14 @@ import steinerflowmodel
 import preprocess
 import datanice
 import readWrite
-import plotSolution
+#import plotSolution
 import time
 
 #parameter to solve the P2PFC
 instance = 'v'     # Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
 demandFactor =  1 	# will multiply the demand (if you want to suppose that the demand increases)
 period = 12*40	#to calculate profit you can here choose for how many years you want to plan
+
 plotEdgeNumbers=False   #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
 
 #read the data
@@ -99,4 +100,4 @@ for e in coreEdges + assEdges1 + assEdges2:
 	if num > 0:
 		numberEdgeInTree[e[2],e[3]] = num
 
-plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solution[min_root[1]], min_root,numberEdgeInTree,None,None,True,plotEdgeNumbers)
+#plotSolution.plotSolution(facilitys, steinerNodes, cos, customers, solution[min_root[1]], min_root,numberEdgeInTree,None,None,True,plotEdgeNumbers)
