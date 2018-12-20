@@ -151,6 +151,7 @@ for [demandFactor, period] in paramList:
 		print("solution is only an upper bound!")
 		print("best lower bound: ", best_lb_costs)
 	print("time: ", elapsed_time, "s")
+	print("\n", demandAndPeriodList, "\n")
 
 	print("\n", demandAndPeriodList, "\n")
 

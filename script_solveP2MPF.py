@@ -73,6 +73,7 @@ for root in cos:
 			edgeNumberDic[e[2], e[3]] = x[e[2], e[3]].X
 		
 		costsfinal = model.ObjVal + costDic[root[1]]
+	
 	#find the best solution
 		if min_costs == None or costsfinal < min_costs:
 			min_costs = costsfinal

@@ -30,6 +30,8 @@ numberEdgeInTree = {}
 nodes = cos + facilities + steinerNodes
 #dijkstra for every co on the graph (edges=coreedges)
 for co in cos:
+	
+	#ensure that the root is at the first place of the list
 	if not co == nodes[0]:
 		nodes.remove(co)
 		nodes.insert(0, co)
@@ -47,7 +49,7 @@ for nodeDijk in dijkList:
 		dijkstraListToExtract = nodeDijk[2]
 		break
 
-
+#construct the edges of the path for every customer
 for cust in customers:
 	path, length = preprocess.getPathEdgesDij(min_root, predec[cust[1]], dijkstraListToExtract, coreEdges)
 	solutionEdges = solutionEdges + path
@@ -63,6 +65,6 @@ elapsed_time = time.time() - start_time
 
 print("time: ", elapsed_time, "s")
 
-min_root=[0,min_root]
+min_root = [0, min_root]
 
-plotSolution.plotSolution(facilities, steinerNodes, cos, customers, solutionEdges, min_root,numberEdgeInTree,None,None,True,plotEdgeNumbers)
+plotSolution.plotSolution(facilities, steinerNodes, cos, customers, solutionEdges, min_root, numberEdgeInTree, None, None, True, plotEdgeNumbers)
