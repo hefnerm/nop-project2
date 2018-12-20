@@ -18,12 +18,16 @@ def incoming(node, edges):
 
 	return incomingEdges
 
+#input: cust: customer, dijkstra: dictionary with all facility nodes and the length of the path to this node, assEdges: list of all assignment edges
+#output: a facility node adjacent to cust with the minimal costs of getting to the facility node from the root; the corresponding assignment edge 
 def getMinCostFacAssEdge(cust, dijkstra, assEdges):
 	min_fac = None
 	min_edge = None
 	
 	for edge in assEdges:
 		if edge[3] == cust:
+			
+			#save the node with minimal costs
 			if min_fac == None:
 				min_fac = edge[2]
 				min_edge = edge

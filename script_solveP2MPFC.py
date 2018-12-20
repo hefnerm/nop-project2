@@ -127,7 +127,7 @@ def solve_p2mp(instance, demandFactor, period, splittingNumber, timelimit):
 
 
 
-instance = 'v'
+instance = 'n'#'n','b','v'
 splittingNumber = 4
 plotEdgeNumbers = False
 timelimit = 7200
@@ -135,7 +135,7 @@ timelimit = 7200
 demandAndPeriodList = []
 paramList = []
 for dmdFac in [1]: #, 1.5, 2, 2.5, 3,3.5,4,4.5,5]:
-	for per in [0]:  #, 12*10, 12*20]:
+	for per in [0, 12*10, 12*20, 12*30, 12*40]:  #[0]
 		paramList.append([dmdFac, per])
 
 for [demandFactor, period] in paramList:
@@ -148,7 +148,8 @@ for [demandFactor, period] in paramList:
 		print("solution is only an upper bound!")
 		print("best lower bound: ", best_lb_costs)
 	print("time: ", elapsed_time, "s")
+	print("\n", demandAndPeriodList, "\n")
 
 	plotSolution.plotSolution(facilities, steinerNodes, cos, customers, min_solution, min_root, minEdgeNumberDic, m, s, False, plotEdgeNumbers)
 
-print("\n", demandAndPeriodList, "\n")
+

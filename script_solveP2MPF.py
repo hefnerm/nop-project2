@@ -7,7 +7,7 @@ import time
 
 instance = 'v'
 demandFactor = 1
-splittingNumber = 4
+splittingNumber = 16
 plotEdgeNumbers = False
 timelimit = 7200
 
@@ -73,7 +73,7 @@ for root in cos:
 		
 		costsfinal = model.ObjVal + costDic[root[1]]
 		
-		if min_costs == None or costsfinal < min_costs
+		if min_costs == None or costsfinal < min_costs:
 			min_costs = costsfinal
 			min_root = root
 			min_solution = solutionModel

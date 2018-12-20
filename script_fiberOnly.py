@@ -46,6 +46,8 @@ numberEdgeInTree = {}
 nodes = cos + facilities + steinerNodes
 
 for co in cos:
+	
+	#ensure that the root is at the first place of the list
 	if not co == nodes[0]:
 		nodes.remove(co)
 		nodes.insert(0, co)
@@ -55,8 +57,6 @@ for co in cos:
 
 min_root, min_cost, predec, solutionEdges = solveOnlyFiber.solveOnlyFiber(dataDic, facilities, customers, assEdges1, dijkList, costDic)
 
-#print("solution: ", solution)
-
 dijkstraListToExtract = None
 
 for nodeDijk in dijkList:
@@ -64,12 +64,9 @@ for nodeDijk in dijkList:
 		dijkstraListToExtract = nodeDijk[2]
 		break
 
-
+#construct the edges of the path for every customer
 for cust in customers:
-	#path = graphalgs.getPathP2MP(coreEdges, min_root, predec[cust[1]])
-	#path = graphalgs.getPathFromDijkstra(coreEdges, min_root, predec[cust[1]])
 	path, length = preprocess.getPathEdgesDij(min_root, predec[cust[1]], dijkstraListToExtract, coreEdges)
-	#print("path: ", path)
 	solutionEdges = solutionEdges + path
 
 for e in coreEdges + assEdges1 + assEdges2:
@@ -77,14 +74,12 @@ for e in coreEdges + assEdges1 + assEdges2:
 	if num > 0:
 		numberEdgeInTree[e[2],e[3]] = num
 
-#print(numberEdgeInTree)
-
 print("min_co: ", min_root, " min_cost: ", min_cost)
 
 elapsed_time = time.time() - start_time
 
 print("time: ", elapsed_time, "s")
 
-min_root=[0,min_root]
+min_root = [0, min_root]
 
-plotSolution.plotSolution(facilities, steinerNodes, cos, customers, solutionEdges, min_root,numberEdgeInTree,None,None,True,plotEdgeNumbers)
+plotSolution.plotSolution(facilities, steinerNodes, cos, customers, solutionEdges, min_root, numberEdgeInTree, None, None, True, plotEdgeNumbers)
