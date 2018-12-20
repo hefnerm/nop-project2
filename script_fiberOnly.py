@@ -6,45 +6,29 @@ import solveOnlyFiber
 import plotSolution
 import time
 
-instance = 'b'    #Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
+instance = 'n'    #Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
 demandFactor = 1    # will multiply the demand (if you want to suppose that the demand increases) 
 					#does not matter here, because fiber has capacity infintely
 plotEdgeNumbers = True #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
 
 start_time = time.time()
 
+#read the instance
 dataDic, costDic, profitDic = readWrite.read(instance)
-
+#preprocess, so the demand is satisfied
 dataDic = preprocess.deleteAssEdgesP2P(dataDic, costDic, demandFactor)
 
 facilities, steinerNodes, cos, customers, coreEdges, assEdges1, assEdges2 = datanice.datanice(dataDic)
 
+#construct helping graph
 dijkList = []
 
 facAndSteinerNodes = []
 facAndSteinerEdges = []
 numberEdgeInTree = {}
 
-
-#for node in dataDic['nodes']:
-#	if node[0] in ['facility', 'steiner', 'co']:
-#		facAndSteinerNodes.append(node)
-
-#for edge in dataDic['edges']:
-#	if edge[0] == 'coreEdge':
-#		facAndSteinerEdges.append(edge)
-
-#for co in dataDic['CONodes']:
-#	coDuplicate = ['co'] + [co[0], co[1], co[2]]
-#	if not facAndSteinerNodes[0] == coDuplicate:
-#		facAndSteinerNodes.remove(coDuplicate)
-#		facAndSteinerNodes.insert(0, coDuplicate)
-#	
-#	vis, pa = preprocess.dijkstra(facAndSteinerNodes, facAndSteinerEdges, co[0], costDic)
-#	dijkList.append([co[0], vis])
-
 nodes = cos + facilities + steinerNodes
-
+#dijkstra for every co on the graph (edges=coreedges)
 for co in cos:
 	
 	#ensure that the root is at the first place of the list
@@ -55,6 +39,7 @@ for co in cos:
 	vis, pa = preprocess.dijkstra2(nodes, coreEdges, co[1], costDic)
 	dijkList.append([co[1], vis, pa])
 
+#gives the min_root and the min_costs and the solution edges
 min_root, min_cost, predec, solutionEdges = solveOnlyFiber.solveOnlyFiber(dataDic, facilities, customers, assEdges1, dijkList, costDic)
 
 dijkstraListToExtract = None

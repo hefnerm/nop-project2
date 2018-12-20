@@ -42,9 +42,9 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 	
 	
 	#constraints
+	#discribed and numerated as in the termpaper
+	#(1)
 	for t in customers:
-		#model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.incoming(root[1],edges)) - quicksum(y[e[2],e[3],t[1]] for e in graphalgs.outgoing(root[1],edges)) == -1)
-		#model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.incoming(t[1],edges)) - quicksum(y[e[2],e[3],t[1]] for e in graphalgs.outgoing(t[1],edges)) == 1)
 		
 		model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.outgoing(root[1],edges)) == 1)
 		model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.incoming(t[1],edges)) == 1)
@@ -52,47 +52,40 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 		for i in nodes:
 			if not (i[1]==root[1] or i[1]==t[1]):
 				model.addConstr(quicksum(y[e[2],e[3],t[1]] for e in graphalgs.incoming(i[1],edges)) - quicksum(y[e[2],e[3],t[1]] for e in graphalgs.outgoing(i[1],edges)) == 0)
-	
+
+	#(2)	
 	for t in customers:
 		for e in edges:
 			model.addConstr(y[e[2], e[3], t[1]] <= x[e[2], e[3]])        
-	
+	#(4)
 	for i in steinerNodes+facilitys1+cos:
 		if not i[1]==root[1]:
 			model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],edges)) <= 0)
 			model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],edges)) >= -(splittingNumber-1)*s[i[1]])
-	
-	#for k in customers:
-#		model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(k[1],edges)) == 1)
-	
+	#(4')
 	for i in facilitys2:
 		model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - m[i[1]] - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],assEdges1+coreEdges)) <= 0)
 		model.addConstr(quicksum(x[e[2],e[3]] for e in graphalgs.incoming(i[1],edges)) - m[i[1]] - quicksum(x[e[2],e[3]] for e in graphalgs.outgoing(i[1],assEdges1+coreEdges)) >= -(splittingNumber-1)*s[i[1]])
-	
+	#(3)
 	for i in facilitys + steinerNodes + cos:
 		if not i[1] == root[1]:
 			model.addConstr(s[i[1]] <= quicksum(x[e[2], e[3]] for e in graphalgs.incoming(i[1], edges)))
 	
-	
+	#(9)
 	for i in facilitys2:
 		model.addConstr(s[i[1]]+m[i[1]] <= 1)
-	
+	#(10)
 	for e in assEdges2:
 		model.addConstr(x[e[2],e[3]]<=m[e[2]])
 	
-	#considered = []
-	#for t in customers:
-	#	for e in coreEdges:
-	#		if e[2] != root[1]:
-	#			if not [e[3], e[2]] in considered:
-	#				model.addConstr(y[e[2], e[3], t[1]] + y[e[3], e[2], t[1]] <= 1)
-	#				considered.append([e[2], e[3]])
+	#only for negativ costs
+	#if a edge has negativ costs x_i_j can only be one if one of the y_i_j_t is one for all t in terminals
 
 	for e in edges:
 		if (e[0] == 'assEdge1' or e[0] == 'assEdge2'):
 			if (costs[tuple(e)] <= 0):
 				model.addConstr(x[e[2],e[3]] <= quicksum(y[e[2],e[3],t[1]] for t in customers))
-	
+	#(5)
 	for t in customers:
 		for e in edges:
 			if e[0] in ['assEdge1', 'assEdge2']:
@@ -102,7 +95,7 @@ def solve_P2MPModel(nodes,edges,root,cos,facilitys,facilitys1,facilitys2,custome
 	#solve
 	model.optimize()
 	
-	#solution
+	#return solution
 	solution = []
 	
 	if model.status in [9, 11]:

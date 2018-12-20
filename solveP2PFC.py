@@ -5,11 +5,13 @@ import readWrite
 import plotSolution
 import time
 
-#parameter to solve the P2PFC
-instance = 'b'     # Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
-demandFactor =  1 	# will multiply the demand (if you want to suppose that the demand increases)
-period = 12*40  	#to calculate profit you can here choose for how many years you want to plan
-plotEdgeNumbers = False   #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
+#############parameters to solve the P2PFC
+instance = 'n'     # Choose between n (Naunyn), b (Berlin), v (Vehlefanz)
+demandFactor =  1	# will multiply the demand (if you want to suppose that the demand increases)
+period = 0	#to calculate profit you can here choose for how many month you want to plan
+
+plotEdgeNumbers=True  #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
+###############################
 
 #read the data
 dataDic, costDic, profitDic = readWrite.read(instance)
@@ -74,8 +76,8 @@ for root in cos:
 		if e[0] == 'shortestpath':
 			path, length = preprocess.getPathEdgesDij(e[2],e[3],pa,coreEdges)
 			for pathEdge in path:
-				if not pathEdge in solution[root[1]]:
-					solution[root[1]].append(pathEdge)
+				#if not pathEdge in solution[root[1]]:
+				solution[root[1]].append(pathEdge)
 		else:
 			solution[root[1]].append(e)
 
@@ -94,7 +96,6 @@ print("time: ", elapsed_time, "s")
 #plot the solution
 numberEdgeInTree = {}
 for e in coreEdges + assEdges1 + assEdges2:
-
 	num = solution[min_root[1]].count(e)
 	if num > 0:
 		numberEdgeInTree[e[2],e[3]] = num

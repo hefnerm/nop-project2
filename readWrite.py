@@ -1,3 +1,9 @@
+#input: instance
+#output: all the data you get from the instances
+# 		 dataDic, all nodes and edges
+#        costDic, all costs
+#        profitDic, profits of the customer
+
 def read(instance):
 	
 	if instance == 'b':
