@@ -128,15 +128,15 @@ def solve_p2mp(instance, demandFactor, period, splittingNumber, timelimit):
 
 
 #############parameters to solve the P2MPFC
-instance = 'b'         #chooose from 'n' (Naunyn), 'b' (Berlin), 'v' (Vehlefanz)
+instance = 'v'         #chooose from 'n' (Naunyn), 'b' (Berlin), 'v' (Vehlefanz)
 splittingNumber = 4     # in how much kables can one splitter split one kabel, choose between 4 or 16
 plotEdgeNumbers = False    #Choose between False (no Numbers on the Edges in the plot) or True ( plot Numbers on the Edges in the plot)
 timelimit = 7200
 
 demandAndPeriodList = []
 paramList = []
-for dmdFac in [1,1.5,3,2,2.5,3.5]:                        ##list, will multiply the demand (if you want to suppose that the demand increases
-	for per in [0]:  #to calculate profit you can here choose for how many month you want to plan
+for dmdFac in [1]:                        ##list, will multiply the demand (if you want to suppose that the demand increases
+	for per in [12*10,12*20,12*30]:  #to calculate profit you can here choose for how many month you want to plan
 		paramList.append([dmdFac, per])
 ##########################################
 
